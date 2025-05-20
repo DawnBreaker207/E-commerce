@@ -1,0 +1,126 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import './assets/styles/apexchart.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::ng-deep mat-icon {
+  font-size: inherit !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: normal !important;
+  display: inline-flex !important;
+  vertical-align: middle !important;
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0c1420;
+    --card: #f1f5f9;
+    --card-foreground: #000000;
+    --primary: #e11d48;
+    --primary-foreground: #ffffff;
+    --muted: #cfd9e5;
+    --muted-foreground: #64748b;
+    --destructive: #cc0033;
+    --destructive-foreground: #fafafa;
+    --border: #e2e8f0;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #f2f2f2;
+    --card: #121212;
+    --card-foreground: #262626;
+    --muted: #262626;
+    --muted-foreground: #a3a3a3;
+    --border: #262626;
+  }
+
+  :root[data-theme='violet'] {
+    --primary: #6e56cf;
+  }
+
+  .dark[data-theme='violet'] {
+    --background: #060815;
+    --foreground: #f6f8fb;
+    --card: #0b0f1a;
+    --card-foreground: #f6f8fb;
+    --primary-foreground: #f6f8fb;
+    --muted: #232b3d;
+    --muted-foreground: #a1a8bf;
+    --border: #232b3d;
+  }
+
+  :root[data-theme='red'] {
+    --primary: #cc0033;
+  }
+
+  .dark[data-theme='red'] {
+    --primary-foreground: #ffe5e5;
+  }
+
+  :root[data-theme='blue'] {
+    --primary: #2490ff;
+  }
+
+  .dark[data-theme='blue'] {
+    --background: #02080f;
+    --foreground: #f8fafc;
+    --card: #0b1117;
+    --card-foreground: #f8fafc;
+    --primary-foreground: #0f1729;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #1e293b;
+  }
+
+  :root[data-theme='orange'] {
+    --primary: #ea580c;
+  }
+
+  .dark[data-theme='orange'] {
+    --background: #0c0a09;
+    --foreground: #fafaf9;
+    --card: #141110;
+    --card-foreground: #fafaf9;
+    --primary-foreground: #fafaf9;
+    --muted: #292524;
+    --muted-foreground: #a8a29e;
+    --border: #292524;
+  }
+
+  :root[data-theme='yellow'] {
+    --primary: #facc15;
+  }
+
+  .dark[data-theme='yellow'] {
+    --background: #0c0a09;
+    --foreground: #fafaf9;
+    --card: #141110;
+    --card-foreground: #fafaf9;
+    --primary: #facc15;
+    --primary-foreground: #422006;
+    --muted: #292524;
+    --muted-foreground: #a8a29e;
+    --border: #292524;
+  }
+
+  :root[data-theme='green'] {
+    --primary: #22c55e;
+  }
+
+  .dark[data-theme='green'] {
+    --primary: #22c55e;
+    --primary-foreground: #052e16;
+  }
+}
+
+.dropdown-content {
+  @apply pointer-events-none scale-95 opacity-0 transition duration-100 ease-in;
+}
+.dropdown:hover .dropdown-content {
+  @apply pointer-events-auto scale-100 opacity-100 transition duration-200;
+}

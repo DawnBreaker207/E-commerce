@@ -1,0 +1,20 @@
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <div class="mb-4">
+    <label class="block text-gray-700" for="name">Name</label>
+    <input type="text" id="name" formControlName="name" class="border rounded w-full py-2 px-3 text-gray-700" />
+    <div
+      *ngIf="
+        categoryForm.errors?.['required'] &&
+        (categoryForm.controls['name'].dirty ||
+          categoryForm.controls['name'].touched)
+      "
+      class="text-red-500"></div>
+  </div>
+
+  <button
+    type="submit"
+    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+    [disabled]="!categoryForm.invalid">
+    Add Product
+  </button>
+</form>
