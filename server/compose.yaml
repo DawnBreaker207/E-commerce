@@ -45,7 +45,7 @@ services:
     ports:
       - '8181:8080'
     volumes:
-      - ./keycloak/realms/:/opt/keycloak/data/import
+      - ./docker/keycloak/realms/:/opt/keycloak/data/import
     depends_on:
       - keycloak-mysql
     networks:
