@@ -13,7 +13,7 @@
         (click)="toggleMenu(item)"
         class="text-muted-foreground hover:text-foreground group flex grow items-center gap-4">
         <!-- Icon -->
-        <div [ngClass]="item.active && !menuService.showSideBar ? 'text-primary' : 'text-muted-foreground/50'">
+        <div [ngClass]="item.active && !menuService.showSideBar ? 'text-primary' : 'text-muted-foreground'">
           <!-- <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"></svg-icon> -->
           <mat-icon class="text-[20px] align-middle">{{ item.icon }}</mat-icon>
         </div>
@@ -51,7 +51,7 @@
         <button
           *ngIf="item.children"
           [ngClass]="{ hidden: !menuService.showSideBar }"
-          class="text-foreground/50 flex cursor-pointer items-center justify-end p-0 transition-all duration-500 ltr:right-0 trl:left-0">
+          class="text-foreground flex cursor-pointer items-center justify-end p-0 transition-all duration-500 ltr:right-0 trl:left-0">
           @if (!item.expanded) {
           <!-- <svg-icon src="assets/icons/heroicons/outline/plus.svg" svgClass="h-4 w-4"> </svg-icon> -->
           <mat-icon class="text-[20px]">add</mat-icon>

@@ -19,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLinkActive,
     NgIf,
     NavbarMobileSubmenuComponent,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './navbar-mobile-menu.component.html',
   styleUrl: './navbar-mobile-menu.component.css',

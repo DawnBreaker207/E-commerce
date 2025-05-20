@@ -18,7 +18,7 @@
       </div>
       <button
         (click)="toggleSidebar()"
-        class="text-muted-foreground/50 hover:text-muted-foreground flex items-center justify-center rounded-md p-2 transition-all duration-200 focus:outline-hidden"
+        class="text-muted-foreground hover:text-muted-foreground flex items-center justify-center rounded-md p-2 transition-all duration-200 focus:outline-hidden"
         [ngClass]="{ 'rotate-180': !menuService.showSideBar }">
         <!-- <svg-icon src="assets/icons/heroicons/solid/chevron-double-left.svg"></svg-icon> -->
         <mat-icon>keyboard_double_arrow_left</mat-icon>
@@ -37,7 +37,7 @@
       <!-- <svg-icon
         src="assets/icons/heroicons/outline/information-circle.svg"
         [svgClass]="'h-5 w-5 text-muted-foreground/50'"></svg-icon> -->
-      <mat-icon class="text-[20px] text-muted-foreground/50 flex-shrink-0">info</mat-icon>
+      <mat-icon class="text-[20px] text-muted-foreground flex-shrink-0">info</mat-icon>
 
       <div class="ml-3 truncate text-[10px] font-semibold tracking-wide focus:outline-hidden">
         <span class="bg-primary/10 text-primary px-2 font-semibold">v{{ appJson.version }}</span>

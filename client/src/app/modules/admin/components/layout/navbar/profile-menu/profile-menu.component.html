@@ -48,7 +48,7 @@
         <div
           :key="$index"
           (click)="toggleThemeColor(item.name)"
-          [ngClass]="{ 'border-muted-foreground/30 bg-card': item.name == themeService.theme().color }"
+          [ngClass]="{ 'border-muted-foreground bg-card': item.name == themeService.theme().color }"
           class="focus-visible:ring-ring border-border bg-background text-muted-foreground hover:bg-card hover:text-foreground shadow-xs inline-flex h-8 cursor-pointer items-center justify-start space-x-2 whitespace-nowrap rounded-md border border-dashed px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50">
           <span
             [style.backgroundColor]="item.code"
@@ -67,7 +67,7 @@
         <div
           :key="$index"
           (click)="toggleThemeMode()"
-          [ngClass]="{ 'border-muted-foreground/30 bg-card': item == themeService.theme().mode }"
+          [ngClass]="{ 'border-muted-foreground bg-card': item == themeService.theme().mode }"
           class="focus-visible:ring-ring border-border bg-background text-muted-foreground hover:bg-card hover:text-foreground shadow-xs inline-flex h-8 cursor-pointer items-center justify-start space-x-2 whitespace-nowrap rounded-md border border-dashed px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50">
           <svg-icon
             [src]="
@@ -88,7 +88,7 @@
         <div
           :key="$index"
           (click)="setDirection(item)"
-          [ngClass]="{ 'border-muted-foreground/30 bg-card': item == themeService.theme().direction }"
+          [ngClass]="{ 'border-muted-foreground bg-card': item == themeService.theme().direction }"
           class="focus-visible:ring-ring border-border bg-background text-muted-foreground hover:bg-card hover:text-foreground shadow-xs inline-flex h-8 cursor-pointer items-center justify-start space-x-2 whitespace-nowrap rounded-md border border-dashed px-3 text-xs font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50">
           <svg-icon
             [src]="
@@ -96,7 +96,7 @@
                 ? 'assets/icons/tablericons/text-direction-ltr.svg'
                 : 'assets/icons/tablericons/text-direction-rtl.svg'
             "
-            [svgClass]="'h-5 w-5 text-muted-foreground/50'"></svg-icon>
+            [svgClass]="'h-5 w-5 text-muted-foreground'"></svg-icon>
           <p class="uppercase">{{ item }}</p>
         </div>
         }

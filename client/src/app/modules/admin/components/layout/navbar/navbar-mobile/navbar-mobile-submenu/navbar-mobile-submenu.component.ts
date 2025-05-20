@@ -9,7 +9,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 @Component({
   selector: 'app-navbar-mobile-submenu',
   standalone: true,
-  imports: [NgClass, NgFor, NgTemplateOutlet, RouterLinkActive, RouterLink, AngularSvgIconModule,MatIconModule],
+  imports: [NgClass, NgFor, NgTemplateOutlet, RouterLinkActive, RouterLink, AngularSvgIconModule, MatIconModule],
   templateUrl: './navbar-mobile-submenu.component.html',
   styleUrl: './navbar-mobile-submenu.component.css',
 })

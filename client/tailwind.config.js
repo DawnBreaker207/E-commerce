@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
 module.exports = {
-  darkMode: 'media',
+  darkMode: 'class',
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
@@ -10,17 +10,17 @@ module.exports = {
         nunito: ['Nunito Sans', 'sans-serif'],
       },
       colors: {
-        primary: '#E11D48',
-        'primary-foreground': '#FFFFFF',
-        destructive: '#CC0033',
-        'destructive-foreground': '#FAFAFA',
-        muted: '#CFD9E5',
-        'muted-foreground': '#64748B',
-        card: '#F1F5F9',
-        'card-foreground': '#000000',
-        border: '#E2E8F0',
-        background: '#FFFFFF',
-        foreground: '#0C1420',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        destructive: 'var(--destructive)',
+        'destructive-foreground': 'var(--destructive-foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        border: 'var(--border)',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
       },
       keyframes: {
         wiggle: {
@@ -46,10 +46,10 @@ module.exports = {
       },
       animation: {
         wiggle: 'wiggle 1s ease-in-out infinite',
-        'fade-in-down': 'fade-in-down 0.3s ease-out',
-        'fade-out-down': 'fade-out-down 0.3s ease-out',
-        'fade-in-up': 'fade-in-up 0.3s ease-out',
-        'fade-out-up': 'fade-out-up 0.3s ease-out',
+        'fade-in-down': 'fade-in-down 0.3s ease-out ',
+        'fade-out-down': 'fade-out-down 0.3s ease-out ',
+        'fade-in-up': 'fade-in-up 0.3s ease-out ',
+        'fade-out-up': 'fade-out-up 0.3s ease-out ',
       },
       boxShadow: {
         custom: '0px 0px 50px 0px rgb(82 63 105 / 15%)',
@@ -74,14 +74,16 @@ module.exports = {
           transform: 'scale(0.95)',
           opacity: '0',
           transition: 'all 0.1s ease-in',
+          display: 'none',
         },
         '.dropdown:hover .dropdown-content': {
           pointerEvents: 'auto',
           display: 'block',
           transform: 'scale(1)',
-          animation: `${theme('animation.fade-in-up')}`,
+          animation: theme('animation.fade-in-up'),
           opacity: '1',
           transitionDuration: '0.2s',
+          transitionTimingFunction: 'ease-out',
         },
       };
       addUtilities(newUtilities, ['responsive', 'hover']);

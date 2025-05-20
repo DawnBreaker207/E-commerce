@@ -14,7 +14,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         class="text-muted-foreground hover:bg-card hover:text-foreground mx-3 flex w-full items-center justify-between rounded-md py-2 px-2 text-xs font-semibold">
         <div class="flex item-center justify-start">
-          <span class="text-muted-foreground/50 ltr:mr-2 rtl:ml-2" *ngIf="item.icon">
+          <span class="text-muted-foreground ltr:mr-2 rtl:ml-2" *ngIf="item.icon">
             <!-- <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"></svg-icon> -->
             <mat-icon class="text-[20px] align-middle">{{ item.icon }}</mat-icon>
           </span>
@@ -29,7 +29,7 @@
         <button
           class="text-muted-foreground hover:bg-card hover:text-foreground mx-3 flex w-full items-center justify-between rounded-md py-2 px-2 text-xs font-semibold">
           <div class="flex items-center justify-start">
-            <span class="text-muted-foreground/50 ltr:mr-2 rtl:ml-2" *ngIf="item.icon">
+            <span class="text-muted-foreground ltr:mr-2 rtl:ml-2" *ngIf="item.icon">
               <!-- <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"> </svg-icon> -->
               <mat-icon class="text-[20px] align-middle">{{ item.icon }}</mat-icon>
             </span>
