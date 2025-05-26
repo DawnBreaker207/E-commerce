@@ -1,0 +1,26 @@
+<mat-form-field class="w-full mb-4" floatLabel="auto">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    [class.is-invalid]="control.touched && control.invalid"
+    [type]="type"
+    [formControl]="control"
+    placeholder="{{ label }}" />
+  <!-- Required -->
+  <mat-error *ngIf="control.hasError('required')">{{ label }} is required</mat-error>
+
+  <!-- Min length -->
+  <mat-error *ngIf="control.hasError('minLength')">
+    {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }}
+    characters
+  </mat-error>
+  <!-- Max Length -->
+  <mat-error *ngIf="control.hasError('maxLength')">
+    {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }}
+    characters
+  </mat-error>
+  <!-- Password not match -->
+  <mat-error *ngIf="control.hasError('isMatching')">Password do not match</mat-error>
+  <!-- Email is not valid -->
+  <mat-error *ngIf="control.hasError('email')">Email is not valid</mat-error>
+</mat-form-field>

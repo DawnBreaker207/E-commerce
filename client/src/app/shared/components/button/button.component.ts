@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
+import { cx } from '../../utils/ckassnames';
 
 type ButtonProps = {
   impact: 'bold' | 'light' | 'none';
@@ -92,7 +93,16 @@ export class ButtonComponent implements OnInit {
   };
 
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.classes = cx(
+      this.baseClasses,
+      this.impactClasses[this.tone()][this.impact()],
+      this.sizeClasses[this.size()],
+      this.shapeClasses[this.shape()],
+      this.shadowClasses[this.shadow()],
+      this.full() ? 'w-full' : '',
+    );
+  }
 
   onButtonClick() {
     this.buttonClick.emit();
