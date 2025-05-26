@@ -9,6 +9,12 @@
     <app-text-input [formControl]="$any(form.controls['description'])" [label]="'Description'" />
     <app-text-input [formControl]="$any(form.controls['price'])" [label]="'Price'" [type]="'number'" />
     <app-text-input [formControl]="$any(form.controls['quantity'])" [label]="'Quantity'" [type]="'number'" />
+    <app-select
+      [formControl]="$any(form.controls['categoryDto'])"
+      [options]="categories"
+      optionLabel="categoryTitle"
+      optionValue="categoryId"
+      placeholder="Select"></app-select>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-flat-button color="primary" type="submit">Submit</button>

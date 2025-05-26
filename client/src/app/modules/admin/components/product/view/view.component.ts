@@ -10,10 +10,19 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CreateProductComponent } from '../create/create.component';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatFormFieldModule, MatSortModule, CommonModule, MatInputModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatSortModule,
+    CommonModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css',
 })
@@ -44,7 +53,7 @@ export class ViewProductComponent implements OnInit {
       minWidth: '900px',
       autoFocus: true,
       restoreFocus: false,
-      disableClose: false
+      disableClose: false,
     });
     dialogRef.afterClosed().subscribe(() => this.loadData());
   }
