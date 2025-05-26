@@ -1,5 +1,5 @@
 export const displayedColumns = {
-  product: ['productId', 'productTitle', 'sku', 'imageIrl', 'description', 'price', 'quantity', 'action'],
+  product: ['productId', 'productTitle', 'sku', 'imageUrl', 'description', 'price', 'quantity', 'action'],
   category: ['categoryId', 'categoryTitle', 'imageUrl', 'action'],
 };
 export const headerColumns = {
