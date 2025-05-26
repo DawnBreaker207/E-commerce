@@ -28,12 +28,14 @@ import { MatFormField, MatInputModule } from '@angular/material/input';
 export class CreateProductComponent implements OnInit {
   form!: FormGroup;
   categories!: Category[];
-
+  id: string | null = null;
+  isEdit = false;
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private categoryService: CategoryService,
     private dialogRef: MatDialogRef<CreateProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { id: string | null } = { id: null },
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,18 @@ export class CreateProductComponent implements OnInit {
     this.categoryService.getAll().subscribe((data) => {
       this.categories = data;
     });
+
+    this.id = this.data.id;
+    this.isEdit = !!this.id;
+
+    if (this.isEdit && this.id) {
+      this.productService.getOne(this.id).subscribe((data) => {
+        this.form.patchValue({
+          ...data,
+        category: data.category ? data.category.categoryId : null,
+        });
+      });
+    }
   }
   initializeForm() {
     this.form = this.fb.group({
@@ -54,22 +68,27 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
-  close() {
-    this.dialogRef.close();
-  }
-
   save() {
-    if (this.form.valid) {
-      const categoryId = this.form.value.categoryDto;
+    if (this.form.invalid) return;
+
+    {
+      const categoryId = this.form.value.category;
       const category = this.categories.find((c) => c.categoryId === categoryId);
 
       const payload = {
         ...this.form.value,
-        categoryDto: category ? category : null,
+        category: category ? category : null,
       };
 
-      this.productService.create(payload).subscribe(() => {});
-      this.dialogRef.close();
+      const save$ =
+        this.id && this.isEdit ? this.productService.update(this.id, payload) : this.productService.create(payload);
+
+      save$.subscribe({});
+      this.close();
     }
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 }
