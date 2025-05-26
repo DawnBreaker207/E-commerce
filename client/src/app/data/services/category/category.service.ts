@@ -23,7 +23,7 @@ export class CategoryService {
   update(id: string, input: Category): Observable<Category> {
     return this.http.put<Category>(`${this.URL}/${id}`, input);
   }
-  delete(id: string): void {
-    this.http.delete<void>(`${this.URL}/${id}`);
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.URL}/${id}`);
   }
 }
