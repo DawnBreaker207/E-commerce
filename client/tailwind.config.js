@@ -2,7 +2,7 @@
 const plugin = require('tailwindcss/plugin');
 module.exports = {
   darkMode: 'class',
-  content: ['./src/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts}', './node_modules/@angular/material/**/*.js'],
   theme: {
     extend: {
       fontFamily: {
