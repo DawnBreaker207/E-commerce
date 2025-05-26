@@ -1,7 +1,12 @@
+import { Category } from './category';
+
 export interface Product {
-  id?: string;
-  skuCode: string;
-  name: string;
+  productId?: string;
+  productTitle: string;
+  sku: string;
+  imageUrl: string;
   description: string;
   price: number;
+  quantity: number;
+  categoryDto?: Category;
 }
