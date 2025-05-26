@@ -2,16 +2,16 @@ package com.dawn.server.service;
 
 import java.util.List;
 
-import com.dawn.server.model.Category;
+import com.dawn.server.dto.CategoryDto;
 
 public interface CategoryService {
-    List<Category> findAll();
+    List<CategoryDto> findAll();
 
-    Category findOne(Long categoryId);
+    CategoryDto findOne(final Long categoryId);
 
-    Category save(Category category);
+    CategoryDto save(final CategoryDto category);
 
-    Category update(Long categoryId, Category category);
+    CategoryDto update(final Long categoryId, final CategoryDto category);
 
-    boolean deleteById(Long categoryId);
+    boolean deleteById(final Long categoryId);
 }

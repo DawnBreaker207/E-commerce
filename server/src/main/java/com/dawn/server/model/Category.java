@@ -29,10 +29,14 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", unique = true, nullable = false, updatable = false)
-    private Long id;
+    private Long categoryId;
 
-    private String name;
+    @Column(name = "category_title")
+    private String categoryTitle;
 
+    @Column(name="image_url")
+    private String imageUrl;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Product> products;
