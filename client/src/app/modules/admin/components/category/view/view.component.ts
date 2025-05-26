@@ -49,12 +49,24 @@ export class ViewCategoryComponent implements OnInit {
     this.loadData();
   }
 
-  openDialog() {
+  openDialogCreate() {
     const dialogRef = this.dialog.open(CreateCategoryComponent, {
       minWidth: '900px',
       autoFocus: true,
       restoreFocus: false,
       disableClose: false,
+      data: { id: null },
+    });
+    dialogRef.afterClosed().subscribe(() => this.loadData());
+  }
+
+  openDialogEdit(id: string | number) {
+    const dialogRef = this.dialog.open(CreateCategoryComponent, {
+      minWidth: '900px',
+      autoFocus: true,
+      restoreFocus: false,
+      disableClose: false,
+      data: { id: id },
     });
     dialogRef.afterClosed().subscribe(() => this.loadData());
   }

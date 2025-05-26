@@ -1,4 +1,4 @@
-<button mat-button (click)="openDialog()">Create</button>
+<button mat-button (click)="openDialogCreate()">Create</button>
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
@@ -20,7 +20,7 @@
           </ng-container>
           <!-- Show action -->
           <ng-container *ngSwitchCase="'action'">
-            <button mat-button color="primary">Edit</button>
+            <button mat-button color="primary" (click)="openDialogEdit(element.categoryId)">Edit</button>
             <button mat-button color="warn" (click)="onDelete(element.categoryId)">Delete</button>
           </ng-container>
           <!-- Show label -->

@@ -2,7 +2,7 @@
   <div class="flex justify-end">
     <mat-icon class="cursor-pointer text-gray-500 hover:text-black" (click)="close()">close</mat-icon>
   </div>
-  <h2 class="text-center text-primary font-bold">Create</h2>
+  <h2 class="text-center text-primary font-bold">{{ isEdit ? 'Edit' : 'Create' }}</h2>
 
   <mat-dialog-content>
     <app-text-input [formControl]="$any(form.controls['categoryTitle'])" [label]="'Name'" />
