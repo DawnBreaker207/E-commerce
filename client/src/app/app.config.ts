@@ -6,13 +6,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideAuth } from 'angular-auth-oidc-client';
 import { routes } from './app-routing.module';
 import { authConfig } from './core/config/auth.config';
-import { authInterceptor } from './core/interceptor/auth.interceptor';
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { TokenInterceptor } from './core/interceptor/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor, TokenInterceptor])),
     provideAuth(authConfig),
     provideAnimationsAsync(),
     {
