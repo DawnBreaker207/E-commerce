@@ -7,6 +7,7 @@ import { provideAuth } from 'angular-auth-oidc-client';
 import { routes } from './app-routing.module';
 import { authConfig } from './core/config/auth.config';
 import { authInterceptor } from './core/interceptor/auth.interceptor';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +15,12 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAuth(authConfig),
     provideAnimationsAsync(),
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        // appearance: 'outline',
+        subscriptSizing: 'dynamic',
+      },
+    },
   ],
 };
