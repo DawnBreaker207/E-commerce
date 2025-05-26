@@ -15,15 +15,15 @@ export class Menu {
         },
         {
           // icon: 'assets/icons/heroicons/outline/cube.svg',
-          icon: 'apps',
-          label: 'Products',
-          route: '/admin/product',
-        },
-        {
-          // icon: 'assets/icons/heroicons/outline/cube.svg',
           icon: 'category',
           label: 'Category',
           route: '/admin/category',
+        },
+        {
+          // icon: 'assets/icons/heroicons/outline/cube.svg',
+          icon: 'apps',
+          label: 'Products',
+          route: '/admin/product',
         },
         {
           // icon: 'assets/icons/heroicons/outline/cube.svg',
