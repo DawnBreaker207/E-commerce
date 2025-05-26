@@ -1,0 +1,8 @@
+<mat-form-field class="w-full mb-4" floatLabel="auto">
+  <mat-label>{{ placeholder }}</mat-label>
+  <mat-select [disabled]="disabled" [formControl]="control">
+    <mat-option *ngFor="let item of options" [value]="item[optionValue]">
+      {{ item[optionLabel] }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
