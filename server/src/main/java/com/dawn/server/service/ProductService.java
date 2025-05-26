@@ -2,16 +2,16 @@ package com.dawn.server.service;
 
 import java.util.List;
 
-import com.dawn.server.model.Product;
+import com.dawn.server.dto.ProductDto;
 
 public interface ProductService {
-    List<Product> findAll();
-    
-    Product findOne(Long productId);
-    
-    Product save(Product product);
-    
-    Product update(Long productId, Product product);
-    
-    boolean deleteById(Long productId);
+    List<ProductDto> findAll();
+
+    ProductDto findOne(final Long productId);
+
+    ProductDto save(final ProductDto product);
+
+    ProductDto update(final Long productId, final ProductDto product);
+
+    boolean deleteById(final Long productId);
 }

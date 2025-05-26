@@ -1,11 +1,14 @@
 package com.dawn.server.service.Impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dawn.server.dto.ProductDto;
 import com.dawn.server.exceptions.wrapper.ProductNotFoundException;
+import com.dawn.server.helper.ProductMappingHelper;
 import com.dawn.server.model.Product;
 import com.dawn.server.repository.ProductRepository;
 import com.dawn.server.service.ProductService;
@@ -21,29 +24,37 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
+  
     @Override
-    public List<Product> findAll() {
-	return productRepository.findAll();
+    public List<ProductDto> findAll() {
+	var products = productRepository.findAll();
+	return products.stream().map(ProductMappingHelper::map).distinct().collect(Collectors.toList());
     }
 
     @Override
-    public Product findOne(Long productId) {
-	return productRepository.findById(productId).orElseThrow(
+    public ProductDto findOne(Long productId) {
+	return productRepository.findById(productId).map(ProductMappingHelper::map).orElseThrow(
 		() -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
     }
 
     @Override
-    public Product save(Product product) {
-	return productRepository.save(product);
+    public ProductDto save(ProductDto productDto) {
+	var product = ProductMappingHelper.map(productDto);
+	var saved = productRepository.save(product);
+
+	return ProductMappingHelper.map(saved);
+
     }
 
     @Override
-    public Product update(Long productId, Product product) {
+    public ProductDto update(Long productId, ProductDto productDto) {
 	try {
 	    Product existingProduct = productRepository.findById(productId).orElseThrow(
 		    () -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
 
-	    return productRepository.save(product);
+	    var product = ProductMappingHelper.map(productDto);
+		var saved = productRepository.save(product);
+		return ProductMappingHelper.map(saved);
 	} catch (ProductNotFoundException e) {
 	    throw new ProductNotFoundException(String.format("Product with id[%d] not found", productId));
 	} catch (Exception e) {
@@ -52,9 +63,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteById(Long productId) {
+    public boolean deleteById(Long productId) {
 	try {
 	    productRepository.deleteById(productId);
+	    return true;
 	} catch (ProductNotFoundException e) {
 	    throw new ProductNotFoundException(String.format("Product with id[%d] not found", productId));
 	}
