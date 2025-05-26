@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 9000
 
 spring:
   application:
@@ -15,6 +15,11 @@ spring:
     enabled: true
     locations: classpath:/db/migration
     baseline-on-migrate: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8181/realms/spring-microservice-security-realms
 
 springdoc:
   swagger-ui:
@@ -50,4 +55,4 @@ management:
 
 #Loki URL
 loki:
-  url: http://loki:3100/loki/api/v1/push
+  url: http://localhost:3100/loki/api/v1/push
