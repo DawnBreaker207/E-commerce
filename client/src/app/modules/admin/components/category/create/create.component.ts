@@ -1,36 +1,65 @@
-import { Category } from '@/app/data/model/category';
 import { CategoryService } from '@/app/data/services/category/category.service';
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ButtonComponent } from '@/app/shared/components/button/button.component';
+import { InputComponent } from '@/app/shared/components/input/input.component';
+import { categoryTitleValidation } from '@/app/shared/validations/category-title.validator';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormField, MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-create-category',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormField,
+    MatDialogModule,
+    ButtonComponent,
+    InputComponent,
+    MatIconModule,
+  ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
 })
-export class CreateCategoryComponent {
-  categoryForm: FormGroup;
+export class CreateCategoryComponent implements OnInit {
+  form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private categoryService: CategoryService) {
-    this.categoryForm = this.fb.group({
-      name: ['', [Validators.required]],
+  constructor(
+    private fb: FormBuilder,
+    private categoryService: CategoryService,
+    private dialogRef: MatDialogRef<CreateCategoryComponent>,
+  ) {}
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.form = this.fb.group({
+      categoryTitle: [
+        '',
+        {
+          validators: [Validators.required],
+          //  asyncValidators : [categoryTitleValidation(this.categoryService)],
+          //  updateOne: 'blur'
+        },
+      ],
     });
   }
 
-  onSubmit() {
-    if (this.categoryForm.valid) {
-      const category: Category = {
-        name: this.categoryForm.get('name')?.value,
-      };
-
-      this.categoryService.create(category).subscribe((data) => {
-        this.categoryForm.reset;
+  save() {
+    if (this.form.valid) {
+      this.categoryService.create(this.form.value).subscribe(() => {
+        this.dialogRef.close();
       });
-    } else {
-      console.log('Form is not valid');
     }
   }
 }

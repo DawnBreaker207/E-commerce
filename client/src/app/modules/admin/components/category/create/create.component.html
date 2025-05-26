@@ -1,20 +1,14 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-  <div class="mb-4">
-    <label class="block text-gray-700" for="name">Name</label>
-    <input type="text" id="name" formControlName="name" class="border rounded w-full py-2 px-3 text-gray-700" />
-    <div
-      *ngIf="
-        categoryForm.errors?.['required'] &&
-        (categoryForm.controls['name'].dirty ||
-          categoryForm.controls['name'].touched)
-      "
-      class="text-red-500"></div>
+<form [formGroup]="form" (ngSubmit)="save()" autocomplete="off" class="p-4 space-y-6 h-full flex flex-col">
+  <div class="flex justify-end">
+    <mat-icon class="cursor-pointer text-gray-500 hover:text-black" (click)="close()">close</mat-icon>
   </div>
+  <h2 class="text-center text-primary font-bold">Create</h2>
 
-  <button
-    type="submit"
-    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-    [disabled]="!categoryForm.invalid">
-    Add Product
-  </button>
+  <mat-dialog-content>
+    <app-text-input [formControl]="$any(form.controls['categoryTitle'])" [label]="'Name'" />
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button mat-flat-button color="primary" type="submit">Submit</button>
+  </mat-dialog-actions>
 </form>
