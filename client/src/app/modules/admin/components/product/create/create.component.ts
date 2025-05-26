@@ -50,7 +50,7 @@ export class CreateProductComponent implements OnInit {
       description: [''],
       price: [],
       quantity: [],
-      categoryDto: [null],
+      category: [null],
     });
   }
 
