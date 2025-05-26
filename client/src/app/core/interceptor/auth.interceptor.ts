@@ -1,24 +1,23 @@
+import { ToastService } from '@/app/shared/services/toast.service';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { from, switchMap } from 'rxjs';
+import { catchError, switchMap, tap, throwError, timer } from 'rxjs';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(OidcSecurityService);
-
-  return from(authService.getAccessToken()).pipe(
-    switchMap((token) => {
-      if (token) {
-        const reqHeader = req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        return next(reqHeader);
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  const oidc = inject(OidcSecurityService);
+  const toast = inject(ToastService);
+  return next(req).pipe(
+    catchError((err) => {
+      if (err.status === 401) {
+        toast.show('Your session has expired', 'error');
+        return timer(5000).pipe(
+          tap(() => oidc.authorize()),
+          switchMap(() => throwError(() => err)),
+        );
       }
 
-      return next(req);
+      return throwError(() => err);
     }),
   );
 };
