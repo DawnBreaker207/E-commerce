@@ -3,11 +3,13 @@ package com.dawn.server.service.Impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dawn.server.dto.ProductDto;
 import com.dawn.server.exceptions.wrapper.ProductNotFoundException;
+import com.dawn.server.helper.CategoryMappingHelper;
 import com.dawn.server.helper.ProductMappingHelper;
 import com.dawn.server.model.Product;
 import com.dawn.server.repository.ProductRepository;
@@ -24,7 +26,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
-  
     @Override
     public List<ProductDto> findAll() {
 	var products = productRepository.findAll();
@@ -52,13 +53,17 @@ public class ProductServiceImpl implements ProductService {
 	    Product existingProduct = productRepository.findById(productId).orElseThrow(
 		    () -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
 
-	    var product = ProductMappingHelper.map(productDto);
-		var saved = productRepository.save(product);
-		return ProductMappingHelper.map(saved);
+	    BeanUtils.copyProperties(productDto, existingProduct, "productId", "category");
+	    
+	    if(productDto.getCategoryDto() != null) {
+		existingProduct.setCategory(CategoryMappingHelper.map(productDto.getCategoryDto()));
+	    }
+	    var saved = productRepository.save(existingProduct);
+	    return ProductMappingHelper.map(saved);
 	} catch (ProductNotFoundException e) {
 	    throw new ProductNotFoundException(String.format("Product with id[%d] not found", productId));
 	} catch (Exception e) {
-	    throw new ProductNotFoundException(String.format("Error updating product", productId));
+	    throw new RuntimeException(String.format("Error updating product with id[%d}", productId));
 	}
     }
 

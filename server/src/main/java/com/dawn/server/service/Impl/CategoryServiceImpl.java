@@ -3,6 +3,7 @@ package com.dawn.server.service.Impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +52,9 @@ public class CategoryServiceImpl implements CategoryService {
 	    Category existingCategory = categoryRepository.findById(categoryId).orElseThrow(
 		    () -> new CategoryNotFoundException(String.format("Category with id[%d] not found", categoryId)));
 
-	    Category category = CategoryMappingHelper.map(categoryDto);
-	    Category saved = categoryRepository.save(category);
+	    BeanUtils.copyProperties(categoryDto, existingCategory, "categoryId");
+
+	    Category saved = categoryRepository.save(existingCategory);
 	    return CategoryMappingHelper.map(saved);
 	} catch (CategoryNotFoundException e) {
 	    throw new CategoryNotFoundException(String.format("Category with id[%d] not found", categoryId));
