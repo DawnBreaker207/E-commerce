@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CreateProductComponent } from '../create/create.component';
+import { ProductFormComponent } from '../form/form.component';
 import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-view-product',
@@ -49,7 +49,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   openDialogCreate() {
-    const dialogRef = this.dialog.open(CreateProductComponent, {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
       minWidth: '900px',
       autoFocus: true,
       restoreFocus: false,
@@ -60,7 +60,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   openDialogEdit(id: string | number) {
-    const dialogRef = this.dialog.open(CreateProductComponent, {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
       minWidth: '900px',
       autoFocus: true,
       restoreFocus: false,

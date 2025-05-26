@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField, MatInputModule } from '@angular/material/input';
 @Component({
-  selector: 'app-create-product',
+  selector: 'app-form-product',
   standalone: true,
   imports: [
     MatButtonModule,
@@ -22,10 +22,10 @@ import { MatFormField, MatInputModule } from '@angular/material/input';
     MatIconModule,
     SelectComponent,
   ],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.css',
+  templateUrl: './form.component.html',
+  styleUrl: './form.component.css',
 })
-export class CreateProductComponent implements OnInit {
+export class ProductFormComponent implements OnInit {
   form!: FormGroup;
   categories!: Category[];
   id: string | null = null;
@@ -34,7 +34,7 @@ export class CreateProductComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private dialogRef: MatDialogRef<CreateProductComponent>,
+    private dialogRef: MatDialogRef<ProductFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: string | null } = { id: null },
   ) {}
 
@@ -51,7 +51,7 @@ export class CreateProductComponent implements OnInit {
       this.productService.getOne(this.id).subscribe((data) => {
         this.form.patchValue({
           ...data,
-        category: data.category ? data.category.categoryId : null,
+          category: data.category ? data.category.categoryId : null,
         });
       });
     }

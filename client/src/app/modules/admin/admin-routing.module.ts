@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { CreateCategoryComponent } from './components/category/create/create.component';
-import { UpdateCategoryComponent } from './components/category/update/update.component';
+import { CategoryFormComponent } from './components/category/form/form.component';
 import { ViewCategoryComponent } from './components/category/view/view.component';
-import { CreateProductComponent } from './components/product/create/create.component';
-import { UpdateProductComponent } from './components/product/update/update.component';
+import { ProductFormComponent } from './components/product/form/form.component';
 import { ViewProductComponent } from './components/product/view/view.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
@@ -20,8 +18,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: '', component: ViewProductComponent },
-      { path: 'create', component: CreateProductComponent },
-      { path: ':id', component: UpdateProductComponent },
+      { path: 'form', component: ProductFormComponent },
     ],
   },
   {
@@ -29,8 +26,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: '', component: ViewCategoryComponent },
-      { path: 'create', component: CreateCategoryComponent },
-      { path: ':id', component: UpdateCategoryComponent },
+      { path: 'form', component: CategoryFormComponent },
     ],
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

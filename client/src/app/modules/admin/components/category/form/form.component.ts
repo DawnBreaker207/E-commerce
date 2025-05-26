@@ -1,17 +1,15 @@
 import { CategoryService } from '@/app/data/services/category/category.service';
 import { ButtonComponent } from '@/app/shared/components/button/button.component';
 import { InputComponent } from '@/app/shared/components/input/input.component';
-import { categoryTitleValidation } from '@/app/shared/validations/category-title.validator';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField, MatInputModule } from '@angular/material/input';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-create-category',
+  selector: 'app-form-category',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -23,17 +21,17 @@ import { ActivatedRoute } from '@angular/router';
     InputComponent,
     MatIconModule,
   ],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.css',
+  templateUrl: './form.component.html',
+  styleUrl: './form.component.css',
 })
-export class CreateCategoryComponent implements OnInit {
+export class CategoryFormComponent implements OnInit {
   form!: FormGroup;
   id: string | null = null;
   isEdit = false;
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private dialogRef: MatDialogRef<CreateCategoryComponent>,
+    private dialogRef: MatDialogRef<CategoryFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: string | null } = { id: null },
   ) {}
 
