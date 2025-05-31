@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -17,11 +18,16 @@ import lombok.NoArgsConstructor;
 public class CategoryDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    
-    private Long categoryId;
+
+    private Integer categoryId;
+
     private String categoryTitle;
+
+    private String categorySlug;
+
     private String imageUrl;
-    
+
+    private boolean categoryDeleted;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<ProductDto> products;
 }

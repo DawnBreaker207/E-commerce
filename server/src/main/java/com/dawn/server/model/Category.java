@@ -24,18 +24,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class Category extends AbstractMappedEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", unique = true, nullable = false, updatable = false)
-    private Long categoryId;
+    private Integer categoryId;
 
     @Column(name = "category_title")
     private String categoryTitle;
 
+    @Column(name = "slug")
+    private String slug;
+    
     @Column(name="image_url")
     private String imageUrl;
+    
+    @Column(name="is_deleted")
+    private boolean isDeleted;
     
     @JsonIgnore
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

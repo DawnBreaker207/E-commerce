@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto findOne(Long categoryId) {
+    public CategoryDto findOne(Integer categoryId) {
 	return categoryRepository.findById(categoryId).map(CategoryMappingHelper::map).orElseThrow(
 		() -> new CategoryNotFoundException(String.format("Category with id[%d] not found", categoryId)));
     }
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto update(Long categoryId, CategoryDto categoryDto) {
+    public CategoryDto update(Integer categoryId, CategoryDto categoryDto) {
 	try {
 	    Category existingCategory = categoryRepository.findById(categoryId).orElseThrow(
 		    () -> new CategoryNotFoundException(String.format("Category with id[%d] not found", categoryId)));
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean deleteById(Long categoryId) {
+    public boolean deleteById(Integer categoryId) {
 	try {
 	    categoryRepository.deleteById(categoryId);
 

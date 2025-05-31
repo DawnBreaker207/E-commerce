@@ -37,25 +37,26 @@ public class CategoryController {
     @GetMapping("{categoryId}")
     public ResponseEntity<CategoryDto> findOne(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId) {
-	return ResponseEntity.ok(categoryService.findOne(Long.parseLong(categoryId)));
+	return ResponseEntity.ok(categoryService.findOne(Integer.parseInt(categoryId)));
     }
 
     @PostMapping
     public ResponseEntity<CategoryDto> save(
-	    @RequestBody @NotNull(message = "Input must not be null") @Valid final CategoryDto  categoryDto) {
+	    @RequestBody @NotNull(message = "Input must not be null") @Valid final CategoryDto categoryDto) {
 	return ResponseEntity.ok(categoryService.save(categoryDto));
     }
 
     @PutMapping("{categoryId}")
     public ResponseEntity<CategoryDto> update(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId,
-	    @RequestBody @NotNull(message = "Input must not be null") @Valid final CategoryDto  categoryDto) {
-	return ResponseEntity.ok(categoryService.update(Long.parseLong(categoryId), categoryDto));
+	    @RequestBody @NotNull(message = "Input must not be null") @Valid final CategoryDto categoryDto) {
+	return ResponseEntity.ok(categoryService.update(Integer.parseInt(categoryId), categoryDto));
     }
-    
+
     @DeleteMapping("{categoryId}")
-    public ResponseEntity<Boolean> delete( @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId){
-	return ResponseEntity.ok(categoryService.deleteById(Long.parseLong(categoryId)));
+    public ResponseEntity<Boolean> delete(
+	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId) {
+	return ResponseEntity.ok(categoryService.deleteById(Integer.parseInt(categoryId)));
     }
 
 }
