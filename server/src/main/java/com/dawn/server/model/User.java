@@ -1,5 +1,8 @@
 package com.dawn.server.model;
 
+import com.dawn.server.constrant.enums.Gender;
+import com.dawn.server.constrant.enums.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,12 +20,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends AbstractMappedEntity {
 
     @Id
-    @Column(name = "user_id",nullable = false, updatable = false)
+    @Column(name = "user_id", nullable = false, updatable = false)
     private String userId;
-    
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -32,11 +35,18 @@ public class User {
     @Column
     private String lastname;
 
-//    @Column
-//    @Enumerated(EnumType.STRING)
-//    private Gender gender;
+    @Column
+    private String phone;
 
-    public enum Gender {
-	MALE, FEMALE
-    }
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
 }
