@@ -1,0 +1,23 @@
+package com.dawn.server.service;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+import com.dawn.server.dto.OrderDto;
+
+public interface OrderService {
+    List<OrderDto> findAll();
+
+    Page<OrderDto> findAll(int page, int size, String sortBy, String sortOrder);
+
+    OrderDto findById(Integer orderId);
+
+    OrderDto save(final OrderDto orderDto);
+
+    OrderDto update(final Integer orderId, final OrderDto orderDto);
+
+    void deleteById(final Integer orderId);
+
+    Boolean existByOrderId(Integer orderId);
+}
