@@ -20,11 +20,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class Product extends AbstractMappedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", unique = true, nullable = false, updatable = false)
-    private Long productId;
+    private Integer productId;
     
     @Column(name = "product_title")
     private String productTitle;
@@ -35,6 +35,7 @@ public class Product {
     @Column(unique = true, nullable = false)
     private String sku;
 
+    @Column(name = "description")
     private String description;
     
     @Column(name = "quantity")
@@ -42,6 +43,9 @@ public class Product {
     
     @Column(columnDefinition = "decimal")
     private Double price;
+
+    @Column(name="is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")

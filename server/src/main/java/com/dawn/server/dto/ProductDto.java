@@ -19,13 +19,14 @@ public class ProductDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Long productId;
+    private Integer productId;
     private String productTitle;
     private String imageUrl;
     private String sku;
     private String description;
     private Double price;
     private Integer quantity;
+    private Boolean productDeleted;
     
     @JsonProperty("category")
     @JsonInclude(JsonInclude.Include.NON_NULL)

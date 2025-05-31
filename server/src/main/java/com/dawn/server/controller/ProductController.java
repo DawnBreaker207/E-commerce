@@ -37,7 +37,7 @@ public class ProductController {
     @GetMapping("{productId}")
     public ResponseEntity<ProductDto> findOne(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId) {
-	return ResponseEntity.ok(productService.findOne(Long.parseLong(productId)));
+	return ResponseEntity.ok(productService.findOne(Integer.parseInt(productId)));
     }
 
     @PostMapping
@@ -50,12 +50,12 @@ public class ProductController {
     public ResponseEntity<ProductDto> update(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId,
 	    @RequestBody @NotNull(message = "Input must not be null") @Valid final ProductDto productDto) {
-	return ResponseEntity.ok(productService.update(Long.parseLong(productId), productDto));
+	return ResponseEntity.ok(productService.update(Integer.parseInt(productId), productDto));
     }
 
     @DeleteMapping("{productId}")
     public ResponseEntity<Boolean> delete(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId) {
-	return ResponseEntity.ok(productService.deleteById(Long.parseLong(productId)));
+	return ResponseEntity.ok(productService.deleteById(Integer.parseInt(productId)));
     }
 }

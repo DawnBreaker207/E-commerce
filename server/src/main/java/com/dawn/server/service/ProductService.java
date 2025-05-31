@@ -7,11 +7,11 @@ import com.dawn.server.dto.ProductDto;
 public interface ProductService {
     List<ProductDto> findAll();
 
-    ProductDto findOne(final Long productId);
+    ProductDto findOne(final Integer productId);
 
     ProductDto save(final ProductDto product);
 
-    ProductDto update(final Long productId, final ProductDto product);
+    ProductDto update(final Integer productId, final ProductDto product);
 
-    boolean deleteById(final Long productId);
+    boolean deleteById(final Integer productId);
 }
