@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto findOne(Long productId) {
+    public ProductDto findOne(Integer productId) {
 	return productRepository.findById(productId).map(ProductMappingHelper::map).orElseThrow(
 		() -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
     }
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto update(Long productId, ProductDto productDto) {
+    public ProductDto update(Integer productId, ProductDto productDto) {
 	try {
 	    Product existingProduct = productRepository.findById(productId).orElseThrow(
 		    () -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean deleteById(Long productId) {
+    public boolean deleteById(Integer productId) {
 	try {
 	    productRepository.deleteById(productId);
 	    return true;
