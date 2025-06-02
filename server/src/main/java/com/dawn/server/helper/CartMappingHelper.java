@@ -7,6 +7,7 @@ import com.dawn.server.dto.CartItemDto;
 import com.dawn.server.model.Cart;
 import com.dawn.server.model.CartItem;
 import com.dawn.server.model.Product;
+import com.dawn.server.model.User;
 
 public interface CartMappingHelper {
     static CartDto map(final Cart cart) {
@@ -15,7 +16,7 @@ public interface CartMappingHelper {
 	return CartDto
 		.builder()
 		.cartId(cart.getCartId())
-		.userId(cart.getUserId())
+		.userId(cart.getUser().getUserId())
 		.cartItemDtos(cart.getCartItems()
 			.stream()
 			.map(cartItem -> CartItemDto
@@ -35,7 +36,7 @@ public interface CartMappingHelper {
 	return Cart
 		.builder()
 		.cartId(cartDto.getCartId())
-		.userId(cartDto.getUserId())
+		.user(User.builder().userId(cartDto.getUserId()).build())
 		.cartItems(cartDto.getCartItemDtos()
 			   .stream()
 			   .map(cartItemDto -> CartItem

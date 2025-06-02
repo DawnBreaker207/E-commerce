@@ -26,7 +26,7 @@ public class CartDto implements Serializable {
 
     private String userId;
 
-    @JsonProperty("cart_item")
+    @JsonProperty("cart_items")
     @JsonInclude(Include.NON_NULL)
     private Set<CartItemDto> cartItemDtos;
 

@@ -34,7 +34,7 @@ public class Cart extends AbstractMappedEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private String userId;
+    private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<CartItem> cartItems;

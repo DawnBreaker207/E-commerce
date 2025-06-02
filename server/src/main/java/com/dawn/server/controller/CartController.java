@@ -42,7 +42,7 @@ public class CartController {
 	return ResponseEntity.ok(cartService.findAll(page, size, sortBy, sortOrder));
     }
 
-    @GetMapping
+    @GetMapping("/{cartId}")
     public ResponseEntity<CartDto> findById(
 	    @PathVariable("cartId") @NotBlank(message = "Input must not be blank") @Valid final String cartId) {
 	return ResponseEntity.ok(cartService.findById(Integer.parseInt(cartId)));
