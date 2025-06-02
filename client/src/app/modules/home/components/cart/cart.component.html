@@ -1,0 +1,25 @@
+<div class="p-4 space-y-4">
+  <h2 class="text-xl font-bold">Cart</h2>
+
+  <mat-list *ngIf="cartItems.length > 0; else emptyCart">
+    <mat-list-item *ngFor="let item of cartItems">
+      <div class="flex justify-between w-full">
+        <div class="">
+          <div class="">{{ getProduct(item)?.productTitle }}</div>
+          <small>Quantity: {{ item.quantity }}</small>
+        </div>
+        <div class="">{{ getProduct(item)?.price || 0 * item.quantity | currency : 'VND' }}</div>
+      </div>
+      <button mat-icon-button color="warn" (click)="removeItem(item.cartItemId)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+
+    <div class="text-right font-semibold mt-2">Total: {{ total | currency : 'VND' }}</div>
+  </mat-list>
+
+  <ng-template #emptyCart>
+    <p>Empty Cart</p>
+  </ng-template>
+</div>
