@@ -10,9 +10,13 @@ spring:
     password: mysql
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/db/migration/data.sql
   flyway:
-    enabled: true
+    enabled: false
     locations: classpath:/db/migration
     baseline-on-migrate: true
   security:
