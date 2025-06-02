@@ -8,5 +8,6 @@ export interface Product {
   description: string;
   price: number;
   quantity: number;
+  productDeleted: boolean;
   category?: Category;
 }
