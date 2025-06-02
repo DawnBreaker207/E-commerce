@@ -74,7 +74,7 @@ public class Order extends AbstractMappedEntity {
     @Column(name = "delivered_at")
     private Instant deliveredAt;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name ="order_item")
     private Set<OrderItem> orderItems;
 
