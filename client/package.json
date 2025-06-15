@@ -28,6 +28,7 @@
     "angular-svg-icon": "^13.0.0",
     "apexcharts": "^3.35.3",
     "client": "file:",
+    "date-fns": "^4.1.0",
     "ng-apexcharts": "^1.10.0",
     "ngx-sonner": "^1.0.0",
     "rxjs": "~7.8.0",
