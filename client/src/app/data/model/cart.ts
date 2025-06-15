@@ -1,12 +1,12 @@
 export interface Cart {
-  cartId: number;
+  cartId?: number;
   userId: string;
   cart_items: CartItem[];
 }
 
 export interface CartItem {
-  cartItemId: number;
-  cartId: number;
+  cartItemId: number | undefined;
+  cartId?: number;
   productId: number;
   quantity: number;
 }

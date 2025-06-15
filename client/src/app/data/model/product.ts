@@ -1,7 +1,7 @@
 import { Category } from './category';
 
 export interface Product {
-  productId?: string;
+  productId?: number;
   productTitle: string;
   sku: string;
   imageUrl: string;
