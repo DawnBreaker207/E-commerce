@@ -8,8 +8,8 @@ public interface UserMappingHelper {
 	return UserDto.builder()
 		    .userId(user.getUserId())
 		    .email(user.getEmail())
-		    .firstname(user.getFirstname())
-		    .lastname(user.getLastname())
+		    .firstName(user.getFirstname())
+		    .lastName(user.getLastname())
 		    .avatar(user.getAvatarUrl())
 		    .phone(user.getPhone())
 		    .build();
@@ -19,8 +19,8 @@ public interface UserMappingHelper {
      return User.builder()
 	     	.userId(userDto.getUserId())
 	     	.email(userDto.getEmail())
-	     	.firstname(userDto.getFirstname())
-	     	.lastname(userDto.getLastname())
+	     	.firstname(userDto.getFirstName())
+	     	.lastname(userDto.getLastName())
 	     	.avatarUrl(userDto.getAvatar())
 	     	.phone(userDto.getPhone())
 	     	.build();
