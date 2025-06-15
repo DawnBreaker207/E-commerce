@@ -2,24 +2,39 @@
   <h2 class="text-xl font-bold">Cart</h2>
 
   <mat-list *ngIf="cartItems.length > 0; else emptyCart">
-    <mat-list-item *ngFor="let item of cartItems">
-      <div class="flex justify-between w-full">
-        <div class="">
-          <div class="">{{ getProduct(item)?.productTitle }}</div>
-          <small>Quantity: {{ item.quantity }}</small>
-        </div>
-        <div class="">{{ getProduct(item)?.price || 0 * item.quantity | currency : 'VND' }}</div>
-      </div>
-      <button mat-icon-button color="warn" (click)="removeItem(item.cartItemId)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-list-item>
-    <mat-divider></mat-divider>
+    <ng-container *ngFor="let item of cartItems">
+      <mat-list-item>
+        <div class="flex items-center justify-between w-full gap-4">
+          <div class="shrink-0">
+            <img
+              [src]="getProduct(item)?.imageUrl"
+              [alt]="getProduct(item)?.productTitle"
+              class="w-16 h-16 object-cover rounded" />
+          </div>
 
+          <div class="flex-1">
+            <div class="font-medium">{{ getProduct(item)?.productTitle }}</div>
+            <div class="text-sm text-gray-600">
+              {{ getProduct(item)?.price | currency : 'VND' }} × {{ item.quantity }}
+            </div>
+          </div>
+
+          <div>
+            <button mat-icon-button color="warn" (click)="removeItemProduct(item.productId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
     <div class="text-right font-semibold mt-2">Total: {{ total | currency : 'VND' }}</div>
+
+    <button mat-raised-button color="primary" routerLink="/checkout">Checkout</button>
   </mat-list>
 
   <ng-template #emptyCart>
-    <p>Empty Cart</p>
+    <p class="text-center text-gray-500">Empty Cart</p>
+    <button mat-raised-button color="primary" routerLink="/checkout">Checkout</button>
   </ng-template>
 </div>
