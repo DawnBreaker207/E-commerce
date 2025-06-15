@@ -29,12 +29,13 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
+ 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> findAll() {
 	return ResponseEntity.ok(categoryService.findAll());
     }
 
-    @GetMapping("{categoryId}")
+    @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> findOne(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId) {
 	return ResponseEntity.ok(categoryService.findOne(Integer.parseInt(categoryId)));
@@ -46,14 +47,14 @@ public class CategoryController {
 	return ResponseEntity.ok(categoryService.save(categoryDto));
     }
 
-    @PutMapping("{categoryId}")
+    @PutMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> update(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId,
 	    @RequestBody @NotNull(message = "Input must not be null") @Valid final CategoryDto categoryDto) {
 	return ResponseEntity.ok(categoryService.update(Integer.parseInt(categoryId), categoryDto));
     }
 
-    @DeleteMapping("{categoryId}")
+    @DeleteMapping("/{categoryId}")
     public ResponseEntity<Boolean> delete(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId) {
 	return ResponseEntity.ok(categoryService.deleteById(Integer.parseInt(categoryId)));

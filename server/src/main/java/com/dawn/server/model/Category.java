@@ -1,5 +1,6 @@
 package com.dawn.server.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,6 @@ public class Category extends AbstractMappedEntity{
     
     @JsonIgnore
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
 }

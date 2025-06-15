@@ -2,7 +2,7 @@ package com.dawn.server.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -29,5 +29,5 @@ public class CategoryDto implements Serializable {
 
     private boolean categoryDeleted;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Set<ProductDto> products;
+    private HashSet<ProductDto> products;
 }
