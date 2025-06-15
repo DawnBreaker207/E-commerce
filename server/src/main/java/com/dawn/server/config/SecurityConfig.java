@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,26 +25,25 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final String[] PUBLIC_GET = { "/api/product/**", "/api/category/**","/api/orders/**" };
 
-    private final String[] freeResourceUrls = { "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
-	    "/swagger-resources/**", "/api-docs/**", "/aggregate/**", "/actuator/prometheus"
-	  
+    private final String[] PUBLIC_ALL = { "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
+	    "/swagger-resources/**", "/api-docs/**", "/aggregate/**", "/actuator/prometheus","/api/orders/**" 
+
     };
 
-    
     private final SyncFilter syncFilter;
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	return http
-		.authorizeHttpRequests(authorize -> authorize.requestMatchers(freeResourceUrls).permitAll().anyRequest()
-			.authenticated())
+		.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.GET, PUBLIC_GET).permitAll()
+			.requestMatchers(PUBLIC_ALL).permitAll().anyRequest().authenticated())
 		.csrf(csrf -> csrf.disable()).cors(cors -> cors.configurationSource(corsConfigurationSource()))
 //		.oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults())).build();
 		.oauth2ResourceServer(
 			oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
-		.addFilterAfter(syncFilter, BearerTokenAuthenticationFilter.class)
-		.build();
+		.addFilterAfter(syncFilter, BearerTokenAuthenticationFilter.class).build();
     }
 
     @Bean
@@ -61,7 +61,7 @@ public class SecurityConfig {
 	config.applyPermitDefaultValues();
 	config.setAllowedOrigins(List.of("http://localhost:4200"));
 	config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-	config.setAllowedHeaders(List.of("Authorization","Cache-Control","Content-Type"));
+	config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
 	config.setAllowCredentials(true);
 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	source.registerCorsConfiguration("/**", config);
