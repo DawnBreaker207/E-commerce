@@ -1,9 +1,8 @@
 package com.dawn.server.model;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import com.dawn.server.constrant.enums.OrderStatus;
 import com.dawn.server.constrant.enums.PaymentMethod;
@@ -22,7 +21,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,9 +39,9 @@ public class Order extends AbstractMappedEntity {
     @Column(name = "order_id", unique = true, nullable = false, updatable = false)
     private Integer orderId;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToOne(cascade =  CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -64,23 +62,21 @@ public class Order extends AbstractMappedEntity {
     @Column(name = "order_note")
     private String note;
 
-    @CreatedDate
     @JsonFormat(shape = Shape.STRING)
     @Column(name = "expected_delivery")
     private Instant expectedDelivery;
 
-    @CreatedDate
+  
     @JsonFormat(shape = Shape.STRING)
     @Column(name = "delivered_at")
     private Instant deliveredAt;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name ="order_item")
-    private Set<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<OrderItem> orderItems = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "cart_id")
+//    private Cart cart;
     
     
     

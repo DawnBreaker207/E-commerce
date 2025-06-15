@@ -2,10 +2,12 @@ package com.dawn.server.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Set;
+import java.time.Instant;
+import java.util.HashSet;
 
 import com.dawn.server.constrant.enums.OrderStatus;
 import com.dawn.server.constrant.enums.PaymentMethod;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,9 +28,9 @@ public class OrderDto implements Serializable {
 
     private Integer orderId;
 
-    @JsonProperty("user")
+    @JsonProperty("customer")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private UserDto userDto;
+    private CustomerDto customerDto;
 
     private Integer orderTotalPrice;
 
@@ -40,12 +42,20 @@ public class OrderDto implements Serializable {
 
     private PaymentMethod orderPaymentMethod;
 
-    @JsonProperty("cart_id")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer cartId;
+//    @JsonProperty("cart_id")
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    private Integer cartId;
 
     @JsonProperty("order_items")
     @JsonInclude(Include.NON_NULL)
-    private Set<OrderItemDto> orderItemDtos;
+    private HashSet<OrderItemDto> orderItemDtos;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonProperty("created_at")
+    private Instant createdAt;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonProperty("updated_at")
+    private Instant updatedAt;
 
 }

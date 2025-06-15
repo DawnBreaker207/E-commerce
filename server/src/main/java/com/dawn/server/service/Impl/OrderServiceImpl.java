@@ -10,10 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.dawn.server.dto.CustomerDto;
 import com.dawn.server.dto.OrderDto;
 import com.dawn.server.exceptions.wrapper.OrderNotFoundException;
+import com.dawn.server.helper.CustomerMappingHelper;
 import com.dawn.server.helper.OrderMappingHelper;
+import com.dawn.server.model.Customer;
 import com.dawn.server.model.Order;
+import com.dawn.server.repository.CustomerRepository;
 import com.dawn.server.repository.OrderRepository;
 import com.dawn.server.service.OrderService;
 
@@ -27,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private final OrderRepository orderRepository;
+
+    @Autowired
+    private final CustomerRepository customerRepository;
 
     @Override
     public List<OrderDto> findAll() {
@@ -50,14 +57,28 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto findById(Integer orderId) {
 	Order order = orderRepository.findById(orderId)
 		.orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " not found"));
+
 	return OrderMappingHelper.map(order);
     }
 
     @Override
     public OrderDto save(OrderDto orderDto) {
-	Order saved = orderRepository.save(OrderMappingHelper.map(orderDto));
+	CustomerDto customerDto = orderDto.getCustomerDto();
+	Customer customer = customerRepository.findById(customerDto.getCustomerId()).orElse(null);
 
-	return OrderMappingHelper.map(saved);
+	if (customer == null) {
+	    customer = CustomerMappingHelper.map(customerDto);
+	    customer = customerRepository.save(customer);
+	}
+
+
+	orderDto.setCustomerDto(CustomerMappingHelper.map(customer));
+
+	Order orderEntity = OrderMappingHelper.map(orderDto);
+	orderEntity.setCustomer(customer);
+	Order savedOrder = orderRepository.save(orderEntity);
+
+	return OrderMappingHelper.map(savedOrder);
     }
 
     @Override
