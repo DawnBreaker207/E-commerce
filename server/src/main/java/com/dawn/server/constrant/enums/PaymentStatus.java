@@ -1,5 +1,17 @@
 package com.dawn.server.constrant.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum PaymentStatus {
-  PENDING, PAID, FAILED, REFUNDED
+    @JsonProperty("Pending")
+    PENDING,
+
+    @JsonProperty("Paid")
+    PAID,
+
+    @JsonProperty("Failed")
+    FAILED,
+
+    @JsonProperty("Refunded")
+    REFUNDED
 }
