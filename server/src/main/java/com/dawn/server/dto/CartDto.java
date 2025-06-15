@@ -2,7 +2,7 @@ package com.dawn.server.dto;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -28,6 +28,6 @@ public class CartDto implements Serializable {
 
     @JsonProperty("cart_items")
     @JsonInclude(Include.NON_NULL)
-    private Set<CartItemDto> cartItemDtos;
+    private HashSet<CartItemDto> cartItemDtos;
 
 }

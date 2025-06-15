@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/carts")
 @Tag(name = "CartController", description = "Operations related to carts")
+@Validated
 public class CartController {
     private final CartService cartService;
 
@@ -42,10 +44,16 @@ public class CartController {
 	return ResponseEntity.ok(cartService.findAll(page, size, sortBy, sortOrder));
     }
 
-    @GetMapping("/{cartId}")
-    public ResponseEntity<CartDto> findById(
-	    @PathVariable("cartId") @NotBlank(message = "Input must not be blank") @Valid final String cartId) {
-	return ResponseEntity.ok(cartService.findById(Integer.parseInt(cartId)));
+//    @GetMapping("/{cartId}")
+//    public ResponseEntity<CartDto> findById(
+//	    @PathVariable("cartId") @NotBlank(message = "Input must not be blank") @Valid final String cartId) {
+//	return ResponseEntity.ok(cartService.findById(Integer.parseInt(cartId)));
+//    }
+    
+    @GetMapping("/{userId}")
+    public ResponseEntity<CartDto> findByUserId(
+	    @PathVariable("userId") @NotBlank(message = "Input must not be blank") @Valid final String userId) {
+	return ResponseEntity.ok(cartService.findByUserId(userId));
     }
 
     @PostMapping
@@ -54,14 +62,14 @@ public class CartController {
 	return ResponseEntity.ok(cartService.save(cartDto));
     }
 
-    @PutMapping("{cartId}")
+    @PutMapping("/{cartId}")
     public ResponseEntity<CartDto> update(
 	    @PathVariable("cartId") @NotBlank(message = "Input must not be blank") @Valid final String cartId,
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final CartDto cartDto) {
 	return ResponseEntity.ok(cartService.update(Integer.parseInt(cartId), cartDto));
     }
 
-    @DeleteMapping("{cartId}")
+    @DeleteMapping("/{cartId}")
     public ResponseEntity<Boolean> deleteById(@PathVariable("cartId") final String cartId) {
 	cartService.deleteById(Integer.parseInt(cartId));
 	return ResponseEntity.ok(true);

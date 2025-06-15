@@ -7,11 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(exclude = { "cart", "product" })
 public class CartItem {
 
     @Id
@@ -31,7 +32,7 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
     

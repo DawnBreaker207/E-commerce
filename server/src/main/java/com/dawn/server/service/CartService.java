@@ -12,6 +12,8 @@ public interface CartService {
     Page<CartDto> findAll(int page, int size, String sortBy, String sortOrder);
 
     CartDto findById(Integer cartId);
+    
+    CartDto findByUserId(String userId);
 
     CartDto save(CartDto cartDto);
 
