@@ -1,30 +1,33 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { CartService } from '../cart/cart.service';
-import { Cart } from '@/app/data/model/cart';
+import { CartService } from '../cart/service/cart.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, MatIconModule, MatBadgeModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
   private readonly oidcSecurityService = inject(OidcSecurityService);
   private readonly cartService = inject(CartService);
+
   isAuthenticated = false;
   username = '';
-  total = 0;
+  totalQuantity = 0;
   ngOnInit(): void {
     this.oidcSecurityService.isAuthenticated$.subscribe(({ isAuthenticated }) => {
       this.isAuthenticated = isAuthenticated;
     });
 
     this.oidcSecurityService.userData$.subscribe(({ userData }) => {
-      this.username = userData.preferred_username;
+      this.username = userData?.preferred_username;
     });
-    this.total = this.cartService.total;
+    this.getTotal();
   }
 
   login(): void {
@@ -33,5 +36,11 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.oidcSecurityService.logoff().subscribe((result) => console.log(result));
+  }
+
+  private getTotal() {
+    this.cartService.quantity$.subscribe((data) => {
+      this.totalQuantity = data;
+    });
   }
 }

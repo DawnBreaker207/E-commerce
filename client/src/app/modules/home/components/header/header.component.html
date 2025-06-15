@@ -21,23 +21,41 @@
 
     <div class="w-full md:block md:w-auto hidden" id="mobile-menu">
       <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+        @if (isAuthenticated) {
         <li>
-          @if (isAuthenticated) {
           <p class="text-white">Hi {{ username }}</p>
           <a
             (click)="logout()"
             class="cursor-pointer block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
             Logout
           </a>
-          } @else {
+        </li>
+        <li class="block py-2 pr-4 pl-3 cursor-pointer" routerLink="/cart">
+          <mat-icon [matBadge]="totalQuantity" matBadgeColor="warn" [matBadgeHidden]="totalQuantity === 0"
+            >shopping_cart</mat-icon
+          >
+        </li>
+        } @else {
+
+        <li class="block py-2 pr-4 pl-3 cursor-pointer" routerLink="/cart">
+          <mat-icon
+            [matBadge]="totalQuantity"
+            matBadgeColor="warn"
+            [matBadgeHidden]="totalQuantity === 0"
+            aria-hidden="false"
+            >shopping_cart</mat-icon
+          >
+        </li>
+
+        <li>
           <a
             (click)="login()"
             class="cursor-pointer block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
             Login
           </a>
-          }
         </li>
-        <li class="block py-2 pr-4 pl-3">Cart: {{ total }} items</li>
+
+        }
       </ul>
     </div>
   </div>
