@@ -1,0 +1,10 @@
+<form [formGroup]="form">
+  <mat-radio-group formControlName="value" class="flex flex-col gap-6">
+    <ng-container *ngFor="let option of options">
+      <div class="flex flex-row gap-6 border">
+        <img [src]="option.url" [alt]="option.name" class="h-10 w-10" />
+        <mat-radio-button [value]="option.value">{{ option.name }}</mat-radio-button>
+      </div>
+    </ng-container>
+  </mat-radio-group>
+</form>

@@ -1,9 +1,6 @@
-import { Order } from '@/app/data/model/order';
 import { Product } from '@/app/data/model/product';
-import { OrderService } from '@/app/data/services/order/order.service';
 import { ProductService } from '@/app/data/services/product/product.service';
-import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Router } from '@angular/router';
@@ -13,7 +10,7 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [AsyncPipe, JsonPipe, FormsModule, ProductCardComponent],
+  imports: [FormsModule, ProductCardComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css',
 })

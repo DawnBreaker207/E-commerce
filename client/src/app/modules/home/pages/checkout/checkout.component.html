@@ -1,0 +1,47 @@
+<div class="flex flex-row">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-stepper labelPosition="bottom" [linear]="true" #stepper>
+      <mat-step [stepControl]="customerFormGroup" label="Info">
+        <app-user-info [form]="customerFormGroup"></app-user-info>
+
+        <div class="mt-4">
+          <button mat-button type="button" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="addressFormGroup" label="Address">
+        <app-user-address [form]="addressFormGroup"></app-user-address>
+        <div class="">
+          <button mat-button type="button" matStepperPrevious>Back</button>
+          <button mat-button type="button" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Payment">
+        <app-payment-select [form]="paymentFormGroup" />
+        <div>
+          <button mat-button type="button" matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-raised-button type="submit">Submit</button>
+        </div>
+      </mat-step>
+
+      <ng-template matStepperIcon="number">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+
+      <ng-template matStepperIcon="edit">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+
+      <ng-template matStepperIcon="active">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+
+      <!-- <ng-template matStepperIcon="done">
+        <mat-icon>forum</mat-icon>
+      </ng-template> -->
+    </mat-stepper>
+  </form>
+  <app-summary />
+</div>
