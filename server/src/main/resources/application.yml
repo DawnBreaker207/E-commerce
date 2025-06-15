@@ -11,10 +11,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+      format_sql: true
+    show-sql: true
   sql:
     init:
-      mode: always
-      data-locations: classpath:/db/migration/data.sql
+      mode: never
+      data-locations: classpath:/data.sql
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
   flyway:
     enabled: false
     locations: classpath:/db/migration
