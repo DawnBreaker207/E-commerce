@@ -2,9 +2,11 @@
   <mat-label>{{ label }}</mat-label>
   <input
     matInput
+    [value]="value"
     [class.is-invalid]="control.touched && control.invalid"
     [type]="type"
     [formControl]="control"
+    [readonly]="readonly"
     placeholder="{{ label }}" />
   <!-- Required -->
   <mat-error *ngIf="control.hasError('required')">{{ label }} is required</mat-error>

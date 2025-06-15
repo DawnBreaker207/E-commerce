@@ -13,18 +13,27 @@ import { MatInputModule } from '@angular/material/input';
 export class InputComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() type: string = 'text';
+  @Input() readonly: boolean = false;
 
+  value: string = '';
+  onChange = (_: any) => {};
+  onTouched = () => {};
   constructor(@Self() public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;
   }
+  writeValue(obj: any): void {
+    this.value = obj || '';
+  }
 
-  registerOnChange(fn: any): void {}
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 
   setDisabledState(isDisabled: boolean): void {}
-
-  writeValue(obj: any): void {}
 
   get control(): FormControl {
     return this.ngControl.control as FormControl;

@@ -13,8 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() options: any[] = [];
-  @Input() optionLabel: string = 'label';
-  @Input() optionValue: string = 'value';
+  @Input() label: string = 'label';
+  @Input() value: string = 'value';
   @Input() placeholder = '';
 
   disabled = false;
