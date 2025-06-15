@@ -25,6 +25,12 @@ export class Menu {
           label: 'Products',
           route: '/admin/product',
         },
+           {
+          // icon: 'assets/icons/heroicons/outline/cube.svg',
+          icon: 'receipt_long',
+          label: 'Orders',
+          route: '/admin/order',
+        },
         {
           // icon: 'assets/icons/heroicons/outline/cube.svg',
           icon: 'account_circle',
