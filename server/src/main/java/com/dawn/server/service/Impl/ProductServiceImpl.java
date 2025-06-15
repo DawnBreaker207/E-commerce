@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.dawn.server.dto.ProductDto;
@@ -22,23 +25,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
+    public static final String PRODUCT_CACHE = "product";
     @Autowired
     private final ProductRepository productRepository;
 
+    
     @Override
+    @Cacheable(value = PRODUCT_CACHE)
     public List<ProductDto> findAll() {
 	var products = productRepository.findAll();
 	return products.stream().map(ProductMappingHelper::map).distinct().collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(value = PRODUCT_CACHE, key = "#productId")
     public ProductDto findOne(Integer productId) {
 	return productRepository.findById(productId).map(ProductMappingHelper::map).orElseThrow(
 		() -> new ProductNotFoundException(String.format("Product with id[%d] not found", productId)));
     }
 
     @Override
+    @CachePut(value = PRODUCT_CACHE, key = "#result.id()")
     public ProductDto save(ProductDto productDto) {
 	var product = ProductMappingHelper.map(productDto);
 	var saved = productRepository.save(product);
@@ -48,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CachePut(value = PRODUCT_CACHE, key = "#result.id()")
     public ProductDto update(Integer productId, ProductDto productDto) {
 	try {
 	    Product existingProduct = productRepository.findById(productId).orElseThrow(
@@ -68,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(value = PRODUCT_CACHE, key = "#productId")
     public boolean deleteById(Integer productId) {
 	try {
 	    productRepository.deleteById(productId);

@@ -28,32 +28,35 @@ public class ProductController {
 
     @Autowired
     private final ProductService productService;
-
+    
     @GetMapping
     public ResponseEntity<List<ProductDto>> findAll() {
 	return ResponseEntity.ok(productService.findAll());
     }
 
-    @GetMapping("{productId}")
+   
+    @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> findOne(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId) {
 	return ResponseEntity.ok(productService.findOne(Integer.parseInt(productId)));
     }
 
+   
     @PostMapping
     public ResponseEntity<ProductDto> save(
 	    @RequestBody @NotNull(message = "Input must not be null") @Valid final ProductDto productDto) {
 	return ResponseEntity.ok(productService.save(productDto));
     }
 
-    @PutMapping("{productId}")
+    @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> update(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId,
 	    @RequestBody @NotNull(message = "Input must not be null") @Valid final ProductDto productDto) {
 	return ResponseEntity.ok(productService.update(Integer.parseInt(productId), productDto));
     }
 
-    @DeleteMapping("{productId}")
+   
+    @DeleteMapping("/{productId}")
     public ResponseEntity<Boolean> delete(
 	    @PathVariable @NotBlank(message = "Product must not be blank") @Valid final String productId) {
 	return ResponseEntity.ok(productService.deleteById(Integer.parseInt(productId)));
