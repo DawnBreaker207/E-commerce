@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-form-product',
   standalone: true,
@@ -16,7 +16,6 @@ import { MatFormField, MatInputModule } from '@angular/material/input';
     MatButtonModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatFormField,
     MatDialogModule,
     InputComponent,
     MatIconModule,

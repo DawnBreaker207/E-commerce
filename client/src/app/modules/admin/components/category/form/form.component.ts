@@ -1,26 +1,16 @@
 import { CategoryService } from '@/app/data/services/category/category.service';
-import { ButtonComponent } from '@/app/shared/components/button/button.component';
 import { InputComponent } from '@/app/shared/components/input/input.component';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormField, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-form-category',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormField,
-    MatDialogModule,
-    ButtonComponent,
-    InputComponent,
-    MatIconModule,
-  ],
+  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule, MatDialogModule, InputComponent, MatIconModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
 })
