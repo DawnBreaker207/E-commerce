@@ -9,12 +9,14 @@ import { authConfig } from './core/config/auth.config';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
+import { DatePipe } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([AuthInterceptor, TokenInterceptor])),
     provideAuth(authConfig),
+    DatePipe,
     provideAnimationsAsync(),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
