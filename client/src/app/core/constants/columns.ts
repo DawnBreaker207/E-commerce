@@ -2,7 +2,7 @@ export const headerColumns = {
   product: ['#', 'Title', 'SKU', 'Image', 'Description', 'Price', 'Quantity', 'Action'],
   category: ['#', 'Title', 'Image', 'Action'],
   cart: ['#', 'Image', 'Title', 'Price', 'Total', 'Action'],
-  order: ['#', 'Customer', 'Note', 'Total', 'Status', 'Created', 'Action'],
+  order: ['', 'Customer', 'Note', 'Total', 'Status', 'Created', 'Action'],
 };
 
 export const displayedColumns = {
