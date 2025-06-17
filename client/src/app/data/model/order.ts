@@ -27,23 +27,15 @@ export interface FilterSort {
   sortBy?: string;
   sortDirection?: 'asc' | 'desc';
   page?: number;
+  query?: string;
 }
 export interface FilterDate {
-  dateFrom?: Date;
-  dateTo?: Date;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
-export interface OrderFiler extends FilterSort, FilterDate {
+export interface OrderFilter extends FilterSort, FilterDate {
   status?: OrderStatus;
   paymentStatus?: PaymentStatus;
-  customerEmail?: string;
-  orderNumber?: string;
 }
 
-export interface OrderResponse {
-  data: Order[];
-  total: number;
-  page: number;
-  size: number;
-  totalPages: number;
-}

@@ -1,4 +1,4 @@
-import { CustomerType, Gender } from "@/app/core/constants/type";
+import { CustomerType, Gender } from '@/app/core/constants/type';
 
 export interface Customer {
   customerId: string;
@@ -8,5 +8,5 @@ export interface Customer {
   gender: Gender;
   phone: string;
   avatar: string;
-  type: CustomerType
+  type: CustomerType;
 }
