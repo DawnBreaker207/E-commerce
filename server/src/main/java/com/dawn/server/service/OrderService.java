@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.dawn.server.dto.OrderDto;
+import com.dawn.server.dto.OrderFilterDto;
 
 public interface OrderService {
     List<OrderDto> findAll();
 
-    Page<OrderDto> findAll(int page, int size, String sortBy, String sortOrder);
+    Page<OrderDto> findAll(int page, int size, OrderFilterDto filter);
 
     OrderDto findById(Integer orderId);
 

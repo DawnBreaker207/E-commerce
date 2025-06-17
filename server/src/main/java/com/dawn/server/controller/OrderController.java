@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dawn.server.dto.OrderDto;
+import com.dawn.server.dto.OrderFilterDto;
+import com.dawn.server.response.ApiResponse;
+import com.dawn.server.response.ApiResponsePagination;
 import com.dawn.server.service.OrderService;
 
 import jakarta.validation.Valid;
@@ -29,45 +33,73 @@ import lombok.RequiredArgsConstructor;
 public class OrderController {
     private final OrderService orderService;
 
-    @GetMapping
-    public ResponseEntity<List<OrderDto>> findAll() {
-	return ResponseEntity.ok(orderService.findAll());
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<OrderDto>>> findAll() {
+
+	var response = ApiResponse.<List<OrderDto>>builder().message("Get Order Success").data(orderService.findAll())
+		.build();
+	return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Page<OrderDto>> findAll(@RequestParam(defaultValue = "0") int page,
-	    @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "orderId") String sortBy,
-	    @RequestParam(defaultValue = "asc") String sortOrder) {
-	return ResponseEntity.ok(orderService.findAll(page, size, sortBy, sortOrder));
+    @GetMapping
+    public ResponseEntity<ApiResponsePagination<List<OrderDto>>> findAll(
+	    @ModelAttribute OrderFilterDto filter,
+	    @RequestParam(defaultValue = "0") int page,
+	    @RequestParam(defaultValue = "10") int size
+	    ) {
+
+	
+	Page<OrderDto> orderPage = orderService.findAll(page, size, filter);
+
+	var response = ApiResponsePagination.<List<OrderDto>>builder()
+		.message("Get Query Success")
+		.data(orderPage.getContent())
+		.totalPages(orderPage.getTotalPages())
+		.totalElements(orderPage.getTotalElements())
+		.pageSize(orderPage.getSize())
+		.currentPage(orderPage.getNumber())
+		.hasPrevious(orderPage.hasPrevious())
+		.hasNext(orderPage.hasNext())
+		.build();
+
+	return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDto> findById(
+    public ResponseEntity<ApiResponse<OrderDto>> findById(
 	    @PathVariable("orderId") @NotBlank(message = "Input must not be blank") @Valid final String orderId) {
-	return ResponseEntity.ok(orderService.findById(Integer.parseInt(orderId)));
+
+	var response = ApiResponse.<OrderDto>builder().message("Get Query Success")
+		.data(orderService.findById(Integer.parseInt(orderId))).build();
+	return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> save(
+    public ResponseEntity<ApiResponse<OrderDto>> save(
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final OrderDto orderDto) {
-	return ResponseEntity.ok(orderService.save(orderDto));
+
+	var response = ApiResponse.<OrderDto>builder().message("Get Query Success").data(orderService.save(orderDto))
+		.build();
+	return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<OrderDto> update(
+    public ResponseEntity<ApiResponse<OrderDto>> update(
 	    @PathVariable("orderId") @NotBlank(message = "Input must not be blank") @Valid final String orderId,
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final OrderDto orderDto) {
-
-	return ResponseEntity.ok(orderService.update(Integer.parseInt(orderId), orderDto));
+	var response = ApiResponse.<OrderDto>builder().message("Get Query Success")
+		.data(orderService.update(Integer.parseInt(orderId), orderDto)).build();
+	return ResponseEntity.ok(response);
 
     }
-    
+
     @PatchMapping("/{orderId}")
-    public ResponseEntity<OrderDto> updateStatus(
+    public ResponseEntity<ApiResponse<OrderDto>> updateStatus(
 	    @PathVariable("orderId") @NotBlank(message = "Input must not be blank") @Valid final String orderId,
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final OrderDto orderDto) {
-
-	return ResponseEntity.ok(orderService.update(Integer.parseInt(orderId), orderDto));
+	var response = ApiResponse.<OrderDto>builder().message("Get Query Success")
+		.data(orderService.update(Integer.parseInt(orderId), orderDto)).build();
+	return ResponseEntity.ok(response);
 
     }
 

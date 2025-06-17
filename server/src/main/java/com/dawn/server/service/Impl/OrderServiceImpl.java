@@ -8,10 +8,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dawn.server.dto.CustomerDto;
 import com.dawn.server.dto.OrderDto;
+import com.dawn.server.dto.OrderFilterDto;
 import com.dawn.server.exceptions.wrapper.OrderNotFoundException;
 import com.dawn.server.helper.CustomerMappingHelper;
 import com.dawn.server.helper.OrderMappingHelper;
@@ -20,6 +22,7 @@ import com.dawn.server.model.Order;
 import com.dawn.server.repository.CustomerRepository;
 import com.dawn.server.repository.OrderRepository;
 import com.dawn.server.service.OrderService;
+import com.dawn.server.specifications.OrderSpecifications;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +45,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderDto> findAll(int page, int size, String sortBy, String sortOrder) {
-	Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
+    public Page<OrderDto> findAll(int page, int size, OrderFilterDto filter) {
+
+	Sort sort = Sort.by(
+		Sort.Direction.fromString(filter.getSortDirection() != null ? filter.getSortDirection() : "asc"),
+		filter.getSortBy() != null ? filter.getSortBy() : "createdAt");
+
 	Pageable pageable = PageRequest.of(page, size, sort);
 
-	Page<Order> orders = orderRepository.findAll(pageable);
+	Specification<Order> spec = Specification.where(OrderSpecifications.hasStatus(filter.getStatus()))
+		.and(OrderSpecifications.hasPaymentStatus(filter.getPaymentStatus()))
+		.and(OrderSpecifications.hasCreatedAtBetween(filter.getDateFrom(), filter.getDateTo()))
+		.and(OrderSpecifications.hasQuery(filter.getQuery()));
+
+	Page<Order> orders = orderRepository.findAll(spec, pageable);
 
 	List<OrderDto> orderDtos = orders.stream().map(OrderMappingHelper::map).toList();
 
@@ -70,7 +82,6 @@ public class OrderServiceImpl implements OrderService {
 	    customer = CustomerMappingHelper.map(customerDto);
 	    customer = customerRepository.save(customer);
 	}
-
 
 	orderDto.setCustomerDto(CustomerMappingHelper.map(customer));
 
