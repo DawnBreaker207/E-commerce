@@ -39,7 +39,7 @@ public class CartController {
 
     @GetMapping("/all")
     public ResponseEntity<Page<CartDto>> findAll(@RequestParam(defaultValue = "0") int page,
-	    @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "cartId") String sortBy,
+	    @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortBy,
 	    @RequestParam(defaultValue = "asc") String sortOrder) {
 	return ResponseEntity.ok(cartService.findAll(page, size, sortBy, sortOrder));
     }
@@ -49,7 +49,7 @@ public class CartController {
 //	    @PathVariable("cartId") @NotBlank(message = "Input must not be blank") @Valid final String cartId) {
 //	return ResponseEntity.ok(cartService.findById(Integer.parseInt(cartId)));
 //    }
-    
+
     @GetMapping("/{userId}")
     public ResponseEntity<CartDto> findByUserId(
 	    @PathVariable("userId") @NotBlank(message = "Input must not be blank") @Valid final String userId) {

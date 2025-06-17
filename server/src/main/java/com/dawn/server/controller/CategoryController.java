@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dawn.server.dto.CategoryDto;
+import com.dawn.server.response.ApiResponse;
 import com.dawn.server.service.CategoryService;
 
 import jakarta.validation.Valid;
@@ -29,16 +30,19 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
- 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> findAll() {
-	return ResponseEntity.ok(categoryService.findAll());
+    public ResponseEntity<ApiResponse<List<CategoryDto>>> findAll() {
+	var response = ApiResponse.<List<CategoryDto>>builder().message("Get category success")
+		.data(categoryService.findAll()).build();
+	return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<CategoryDto> findOne(
+    public ResponseEntity<ApiResponse<CategoryDto>> findOne(
 	    @PathVariable("categoryId") @NotBlank(message = "Input must not be blank") @Valid final String categoryId) {
-	return ResponseEntity.ok(categoryService.findOne(Integer.parseInt(categoryId)));
+	var response = ApiResponse.<CategoryDto>builder().message("Get category success")
+		.data(categoryService.findOne(Integer.parseInt(categoryId))).build();
+	return ResponseEntity.ok(response);
     }
 
     @PostMapping
