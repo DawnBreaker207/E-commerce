@@ -6,6 +6,7 @@ import { ViewCategoryComponent } from './components/category/view/view.component
 import { ProductFormComponent } from './components/product/form/form.component';
 import { ViewProductComponent } from './components/product/view/view.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ViewOrderComponent } from './components/order/view/view.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,12 @@ const routes: Routes = [
       { path: '', component: ViewCategoryComponent },
       { path: 'form', component: CategoryFormComponent },
     ],
+  },
+
+  {
+    path: 'order',
+    component: AdminComponent,
+    children: [{ path: '', component: ViewOrderComponent }],
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'error/404' },

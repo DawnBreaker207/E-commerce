@@ -1,0 +1,88 @@
+<form [formGroup]="formFilter" (submit)="applyFilter()" class="flex flex-row gap-5 items-center">
+  <app-text-input [label]="'Search'" formControlName="query" />
+  <app-date-picker formControlName="dateRange" label="Date Range" [mode]="'range'"></app-date-picker>
+  <app-select
+    formControlName="status"
+    [options]="orderStatus"
+    label="label"
+    value="value"
+    placeholder="Select order status"></app-select>
+
+  <app-select
+    formControlName="paymentStatus"
+    [options]="paymentStatus"
+    label="label"
+    value="value"
+    placeholder="Select payment status"></app-select>
+  <app-select
+    formControlName="sort"
+    [options]="sortFilter"
+    label="label"
+    value="value"
+    placeholder="Select Sort"></app-select>
+  <button mat-button type="submit">Submit</button>
+  <button mat-raised-button (click)="clearFilter()">Reset</button>
+</form>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+      <!-- Header Cell -->
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox *ngIf="column === 'orderId'"> </mat-checkbox>
+        <span *ngIf="column !== 'orderId' && column !== 'action'" mat-sort-header>
+          {{ displayedHeader[i] }}
+        </span>
+        <span *ngIf="column === 'action'">
+          {{ displayedHeader[i] }}
+        </span>
+      </th>
+
+      <!-- Cell -->
+      <td mat-cell *matCellDef="let element">
+        <ng-container [ngSwitch]="column">
+          <ng-container *ngSwitchCase="'orderFinalPrice'">
+            {{ element[column] | currency : 'VND' }}
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'created_at'">
+            {{ element[column] | date : 'dd-MM-yyyy' }}
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'customer'">
+            {{ element[column].email }}
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'action'">
+            <button mat-icon-button>
+              <mat-icon class="!text-yellow-500 hover:!bg-yellow-50"> remove_red_eye </mat-icon>
+            </button>
+            <button mat-icon-button color="primary">
+              <mat-icon> edit </mat-icon>
+            </button>
+            <button mat-icon-button color="warn">
+              <mat-icon> cancel </mat-icon>
+            </button>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'orderId'">
+            <mat-checkbox> </mat-checkbox>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault="">
+            {{ element[column] }}
+          </ng-container>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-row" *matNoDataRow="">
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[25, 50, 100, 200]" aria-label="Select page"></mat-paginator>
+</div>
