@@ -1,8 +1,13 @@
 <form [formGroup]="form">
-  <app-text-input formControlName="customerId" [label]="'Customer Id'" [readonly]="true"/>
+  <app-text-input formControlName="customerId" [label]="'Customer Id'" [readonly]="true" />
   <app-text-input formControlName="email" [label]="'Email'" />
   <app-text-input formControlName="firstName" [label]="'First Name'" />
   <app-text-input formControlName="lastName" [label]="'Last Name'" />
-  <app-select formControlName="gender" [options]="gender" [label]="'label'" [value]="'value'" placeholder="Gender"></app-select>
+  <app-select
+    formControlName="gender"
+    [options]="gender"
+    [label]="'label'"
+    [value]="'value'"
+    placeholder="Gender"></app-select>
   <app-text-input formControlName="phone" [label]="'Phone'" />
 </form>

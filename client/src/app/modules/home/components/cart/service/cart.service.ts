@@ -172,7 +172,7 @@ export class CartService implements OnDestroy {
     return this.saveCart(cart);
   }
   clearCart() {
-    const cart = {...this.cartSubject.value} as Cart;
+    const cart = { ...this.cartSubject.value } as Cart;
     if (!cart) return of(null);
     const clearedCart = {
       ...cart,
