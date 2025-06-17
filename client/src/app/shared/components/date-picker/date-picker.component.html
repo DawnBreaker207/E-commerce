@@ -1,0 +1,64 @@
+<ng-container *ngIf="mode === 'single'">
+  <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [placeholder]="label"
+      [matDatepicker]="singlePicker"
+      [min]="minDate"
+      [max]="maxDate"
+      [readonly]="readonly"
+      (dateChange)="onSingleChange($event)"
+      (blur)="onTouched()"
+      [class.is-invalid]="control.touched && control.invalid" />
+    <mat-datepicker-toggle matIconSuffix [for]="singlePicker">
+      <mat-icon matDatepickerToggleIcon> calendar_month </mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #singlePicker [startAt]="startDate" color="accent"></mat-datepicker>
+    <mat-error *ngIf="control?.hasError('required')">{{ label }} is required</mat-error>
+  </mat-form-field>
+</ng-container>
+
+
+
+<ng-container *ngIf="mode === 'range'">
+  <mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <mat-date-range-input [rangePicker]="rangePicker" >
+      <input
+      matStartDate
+      placeholder="Start Date"
+      [min]="minDate"
+      [max]="maxDate"
+      [value]="getRangeStartValue()"
+      [readOnly]="readonly"
+      (dateChange)="onStartChange($event)" />
+
+      <input
+      matEndDate
+      placeholder="End Date"
+      [min]="minDate"
+      [max]="maxDate"
+      [readOnly]="readonly"
+      [value]="getRangeEndValue()"
+      (dateChange)="onEndChange($event)" />
+    </mat-date-range-input>
+
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="rangePicker">
+      <mat-icon matDatepickerToggleIcon> calendar_month </mat-icon>
+    </mat-datepicker-toggle>
+
+    <mat-date-range-picker
+      #rangePicker
+      [startAt]="startDate"
+      color="accent">
+    </mat-date-range-picker>
+
+    <mat-error
+      *ngIf="control?.hasError('required')">
+      {{ label }} is required
+    </mat-error>
+  </mat-form-field>
+</ng-container>
