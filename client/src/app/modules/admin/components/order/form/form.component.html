@@ -1,0 +1,56 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="save()">
+  <div class="flex justify-end">
+    <mat-icon class="cursor-pointer text-gray-500 hover:text-black" (click)="close()">close</mat-icon>
+  </div>
+  <h2 class="text-center text-primary font-bold">{{ isEdit ? 'Edit' : 'View' }}</h2>
+
+  <mat-dialog-content>
+    <app-text-input formControlName="orderId" label="Order Id" [readonly]="true" />
+    <app-text-input formControlName="orderNote" label="Order Note" [readonly]="true" />
+    <app-text-input formControlName="orderFinalPrice" label="Order Total Price" [readonly]="true" />
+
+    <app-select
+      formControlName="orderStatus"
+      [options]="orderStatus"
+      label="label"
+      value="value"
+      placeholder="Select order status"></app-select>
+
+    <ng-container formGroupName="customer">
+      <app-text-input formControlName="email" label="Customer Name" [readonly]="true" />
+      <app-text-input formControlName="phone" label="Customer Phone" [readonly]="true" />
+    </ng-container>
+
+    <div class="mt-6" *ngIf="orderItemArray.length > 0">
+      <h3 class="text-lg font-semibold mb-4">Order Items</h3>
+
+      <div class="space-y-4" formArrayName="order_items">
+        <div
+          *ngFor="let item of orderItemArray.controls; let i = index"
+          [formGroupName]="i"
+          class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+          <app-text-input formControlName="orderItemId" label="Item Id" [readonly]="true" class="hidden" />
+          <div class="flex flex-start space-x-4">
+            <img
+              [src]="item.get('product.imageUrl')?.value"
+              [alt]="item.get('product.productTitle')?.value"
+              class="w-16 h-16 object-cover rounded-md border" />
+          </div>
+
+          <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div formGroupName="product">
+              <app-text-input formControlName="productTitle" label="Product Name" [readonly]="true" />
+            </div>
+
+            <app-text-input formControlName="orderQuantity" label="Quantity" [readonly]="true" />
+            <app-text-input formControlName="orderPrice" label="Price" [readonly]="true" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" *ngIf="isEdit">
+    <button mat-flat-button color="primary" type="submit">Submit</button>
+  </mat-dialog-actions>
+</form>

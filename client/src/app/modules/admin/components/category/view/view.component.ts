@@ -63,7 +63,7 @@ export class ViewCategoryComponent implements OnInit {
   openDialogEdit(id: string | number) {
     const dialogRef = this.dialog.open(CategoryFormComponent, {
       minWidth: '900px',
-      autoFocus: true,
+      autoFocus: false,
       restoreFocus: false,
       disableClose: false,
       data: { id: id },

@@ -12,10 +12,13 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { catchError, of, Subject, takeUntil } from 'rxjs';
-import { DatePickerComponent } from '../../../../../shared/components/date-picker/date-picker.component';
-import { InputComponent } from '../../../../../shared/components/input/input.component';
-import { SelectComponent } from '../../../../../shared/components/select/select.component';
+
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DatePickerComponent } from '@/app/shared/components/date-picker/date-picker.component';
+import { SelectComponent } from '@/app/shared/components/select/select.component';
+import { InputComponent } from '@/app/shared/components/input/input.component';
+import { OrderFormComponent } from '../form/form.component';
+
 @Component({
   selector: 'app-view',
   standalone: true,
@@ -48,10 +51,12 @@ export class ViewOrderComponent implements OnInit, OnDestroy {
   formSearch!: FormGroup;
 
   selectOrders: Set<string> = new Set<string>();
+  isAllSelected = false;
   currentFilter: OrderFilter = {};
   orderStatus = Object.entries(OrderStatusType).map(([value, label]) => ({ value: value.toUpperCase(), label }));
   paymentStatus = Object.entries(PaymentStatusType).map((value) => ({ value: value[1], label: value[0] }));
   sortFilter = sortByOptions;
+
   currentPage = 0;
   pageSize = 20;
   totalPages = 0;
@@ -103,6 +108,28 @@ export class ViewOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  openDialog(id: string | number) {
+    const dialogRef = this.dialog.open(OrderFormComponent, {
+      minWidth: '120px',
+      autoFocus: true,
+      restoreFocus: false,
+      disableClose: false,
+      data: { id: id, isEdit: false },
+    });
+    dialogRef.afterClosed().subscribe(() => this.loadData());
+  }
+
+  openEditDialog(id: string | number) {
+    const dialogRef = this.dialog.open(OrderFormComponent, {
+      minWidth: '120px',
+      autoFocus: true,
+      restoreFocus: false,
+      disableClose: false,
+      data: { id: id, isEdit: true },
+    });
+    dialogRef.afterClosed().subscribe(() => this.loadData());
+  }
+
   applyFilter(): void {
     const formValue = this.formFilter.value;
 
@@ -132,6 +159,23 @@ export class ViewOrderComponent implements OnInit, OnDestroy {
     this.currentPage = 0;
     this.selectOrders.clear();
     this.loadData();
+  }
+
+  onToggleRow(id: string, checked: boolean) {
+    checked ? this.selectOrders.add(id) : this.selectOrders.delete(id);
+  }
+
+  onExport() {
+    const ids = Array.from(this.selectOrders);
+    this.orderService.export( ids ).subscribe((data: Blob) => {
+
+      const url = URL.createObjectURL(data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'order.xlsx';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
   }
 
   ngOnDestroy(): void {
