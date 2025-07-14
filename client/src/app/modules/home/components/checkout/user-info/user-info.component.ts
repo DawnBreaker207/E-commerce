@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { InputComponent } from '../../../../../shared/components/input/input.component';
 import { Gender } from '@/app/core/constants/type';
-import { SelectComponent } from '../../../../../shared/components/select/select.component';
+import { InputComponent } from '@/app/shared/components/input/input.component';
+import { SelectComponent } from '@/app/shared/components/select/select.component';
+
 
 @Component({
   selector: 'app-user-info',

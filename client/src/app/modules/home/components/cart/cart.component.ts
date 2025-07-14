@@ -9,8 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
-import { displayedColumns, headerColumns } from '../../../../core/constants/columns';
+
 import { CartService } from './service/cart.service';
+import { displayedColumns, headerColumns } from '@/app/core/constants/columns';
 @Component({
   selector: 'app-cart',
   standalone: true,

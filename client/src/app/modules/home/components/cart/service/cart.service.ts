@@ -1,5 +1,6 @@
 import { Cart } from '@/app/data/model/cart';
 import { Product } from '@/app/data/model/product';
+import { CartServerService } from '@/app/data/services/cart/cart-server.service';
 import { ProductService } from '@/app/data/services/product/product.service';
 import { generateId } from '@/app/shared/utils/generateId';
 import { Injectable, OnDestroy } from '@angular/core';
@@ -19,7 +20,6 @@ import {
   throwError,
   timeout,
 } from 'rxjs';
-import { CartServerService } from '../../../../../data/services/cart/cart-server.service';
 
 const CART_KEY = 'guest_cart';
 @Injectable({
