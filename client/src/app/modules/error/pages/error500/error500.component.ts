@@ -1,7 +1,8 @@
+import { ButtonComponent } from '@/app/shared/components/button/button.component';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
+
 
 @Component({
   selector: 'app-error500',

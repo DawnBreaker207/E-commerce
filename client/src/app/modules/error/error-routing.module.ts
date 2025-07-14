@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ErrorComponent } from './error.component';
 import { RouterModule, Routes } from '@angular/router';
+import { ErrorComponent } from './error.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { Error500Component } from './pages/error500/error500.component';
 
