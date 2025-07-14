@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, input, Input, Self } from '@angular/core';
+import { Component, Input, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 
