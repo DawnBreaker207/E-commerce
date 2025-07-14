@@ -1,8 +1,13 @@
 package com.dawn.server.controller;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dawn.server.dto.OrderDto;
+import com.dawn.server.dto.OrderExportRequestDto;
 import com.dawn.server.dto.OrderFilterDto;
 import com.dawn.server.response.ApiResponse;
 import com.dawn.server.response.ApiResponsePagination;
@@ -42,24 +48,15 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponsePagination<List<OrderDto>>> findAll(
-	    @ModelAttribute OrderFilterDto filter,
-	    @RequestParam(defaultValue = "0") int page,
-	    @RequestParam(defaultValue = "10") int size
-	    ) {
+    public ResponseEntity<ApiResponsePagination<List<OrderDto>>> findAll(@ModelAttribute OrderFilterDto filter,
+	    @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 
-	
 	Page<OrderDto> orderPage = orderService.findAll(page, size, filter);
 
-	var response = ApiResponsePagination.<List<OrderDto>>builder()
-		.message("Get Query Success")
-		.data(orderPage.getContent())
-		.totalPages(orderPage.getTotalPages())
-		.totalElements(orderPage.getTotalElements())
-		.pageSize(orderPage.getSize())
-		.currentPage(orderPage.getNumber())
-		.hasPrevious(orderPage.hasPrevious())
-		.hasNext(orderPage.hasNext())
+	var response = ApiResponsePagination.<List<OrderDto>>builder().message("Get Query Success")
+		.data(orderPage.getContent()).totalPages(orderPage.getTotalPages())
+		.totalElements(orderPage.getTotalElements()).pageSize(orderPage.getSize())
+		.currentPage(orderPage.getNumber()).hasPrevious(orderPage.hasPrevious()).hasNext(orderPage.hasNext())
 		.build();
 
 	return ResponseEntity.ok(response);
@@ -87,7 +84,7 @@ public class OrderController {
     public ResponseEntity<ApiResponse<OrderDto>> update(
 	    @PathVariable("orderId") @NotBlank(message = "Input must not be blank") @Valid final String orderId,
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final OrderDto orderDto) {
-	var response = ApiResponse.<OrderDto>builder().message("Get Query Success")
+	var response = ApiResponse.<OrderDto>builder().message("Update Order Success")
 		.data(orderService.update(Integer.parseInt(orderId), orderDto)).build();
 	return ResponseEntity.ok(response);
 
@@ -97,7 +94,7 @@ public class OrderController {
     public ResponseEntity<ApiResponse<OrderDto>> updateStatus(
 	    @PathVariable("orderId") @NotBlank(message = "Input must not be blank") @Valid final String orderId,
 	    @RequestBody @NotNull(message = "Input must not be NULL") @Valid final OrderDto orderDto) {
-	var response = ApiResponse.<OrderDto>builder().message("Get Query Success")
+	var response = ApiResponse.<OrderDto>builder().message("Update Order Status Success")
 		.data(orderService.update(Integer.parseInt(orderId), orderDto)).build();
 	return ResponseEntity.ok(response);
 
@@ -113,5 +110,19 @@ public class OrderController {
     @GetMapping("/existOrderId")
     public Boolean existByOrderId(Integer orderId) {
 	return orderService.existByOrderId(orderId);
+    }
+
+    @PostMapping("/export")
+    public ResponseEntity<byte[]> exportOrders(@RequestBody OrderExportRequestDto request) {
+	byte[] excelData = orderService.exportOrdersToExcel(request);
+
+	String filename = request.getFilename() != null ? request.getFilename() + ".xlsx"
+		: "order_export_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
+			+ ".xlsx";
+
+	return ResponseEntity.ok()
+		.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+filename)
+		.contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+		.body(excelData);
     }
 }

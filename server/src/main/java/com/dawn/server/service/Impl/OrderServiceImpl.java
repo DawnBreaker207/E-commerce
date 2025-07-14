@@ -1,7 +1,18 @@
 package com.dawn.server.service.Impl;
 
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import com.dawn.server.dto.CustomerDto;
 import com.dawn.server.dto.OrderDto;
+import com.dawn.server.dto.OrderExportRequestDto;
 import com.dawn.server.dto.OrderFilterDto;
 import com.dawn.server.exceptions.wrapper.OrderNotFoundException;
 import com.dawn.server.helper.CustomerMappingHelper;
@@ -97,7 +109,10 @@ public class OrderServiceImpl implements OrderService {
 	Order existingOrder = orderRepository.findById(orderId)
 		.orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " not found"));
 
-	OrderMappingHelper.map(existingOrder);
+	if (orderDto.getOrderStatus() != null) {
+	    existingOrder.setStatus(orderDto.getOrderStatus());
+	}
+
 	Order saved = orderRepository.save(existingOrder);
 
 	return OrderMappingHelper.map(saved);
@@ -112,6 +127,92 @@ public class OrderServiceImpl implements OrderService {
     public Boolean existByOrderId(Integer orderId) {
 	return orderRepository.findById(orderId).isPresent();
 
+    }
+
+    @Override
+    public byte[] exportOrdersToExcel(OrderExportRequestDto request) {
+//	Get order based on request
+	List<Order> orders = getOrdersForExport(request);
+
+//	Convert to DTOs
+	List<OrderDto> orderDtos = orders.stream().map(OrderMappingHelper::map).collect(Collectors.toList());
+
+//	Generate filenae if not provided
+	String filename = request.getFilename() != null ? request.getFilename() : generateDefaultFilename();
+
+//	Export to Excel 
+	return createExcelFile(orderDtos, filename);
+    }
+
+    private List<Order> getOrdersForExport(OrderExportRequestDto request) {
+	if (request.getOrderIds() != null && !request.getOrderIds().isEmpty()) {
+//	    Export specific orders
+	    return orderRepository.findAllById(request.getOrderIds());
+	} else {
+//	    Export with filters
+	    return orderRepository.findOrdersWithFilters(request.getOrderStatus(), request.getPaymentMethod(),
+		    request.getStartDate(), request.getEndDate());
+	}
+    }
+
+    private byte[] createExcelFile(List<OrderDto> orders, String filename) {
+	try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+	    Sheet sheet = workbook.createSheet("Orders");
+
+//	    Create header row
+	    Row headerRow = sheet.createRow(0);
+	    String[] headers = { "Order ID", "Customer Name", "Customer Email", "Customer Phone", "Total Price",
+		    "Final Price", "Order Status", "Payment Method", "Order Note", "Created At", "Updated At" };
+
+//	    Style header
+	    CellStyle headerStyle = workbook.createCellStyle();
+	    Font headerFont = workbook.createFont();
+	    headerFont.setBold(true);
+	    headerStyle.setFont(headerFont);
+
+	    for (int i = 0; i < headers.length; i++) {
+		Cell cell = headerRow.createCell(i);
+		cell.setCellValue(headers[i]);
+		cell.setCellStyle(headerStyle);
+	    }
+
+//	    Fill data rows
+	    int rowNum = 1;
+	    for (OrderDto order : orders) {
+		Row row = sheet.createRow(rowNum++);
+
+		row.createCell(0).setCellValue(order.getOrderId());
+		row.createCell(1)
+			.setCellValue(order.getCustomerDto() != null
+				? order.getCustomerDto().getFirstName() + " " + order.getCustomerDto().getLastName()
+				: "");
+		row.createCell(2).setCellValue(order.getCustomerDto() != null ? order.getCustomerDto().getEmail() : "");
+		row.createCell(3).setCellValue(order.getCustomerDto() != null ? order.getCustomerDto().getPhone() : "");
+		row.createCell(4).setCellValue(order.getOrderTotalPrice());
+		row.createCell(5).setCellValue(order.getOrderFinalPrice());
+		row.createCell(6).setCellValue(order.getOrderStatus() != null ? order.getOrderStatus().toString() : "Pending");
+		row.createCell(7).setCellValue(order.getOrderPaymentMethod() != null ? order.getOrderPaymentMethod().toString() : "Pending");
+		row.createCell(8).setCellValue(order.getOrderNote());
+		row.createCell(9).setCellValue(order.getCreatedAt() != null ? order.getCreatedAt().toString() : "");
+		row.createCell(10).setCellValue(order.getUpdatedAt() != null ? order.getUpdatedAt().toString() : "");
+	    }
+
+//	    Auto-size columns
+	    for (int i = 0; i < headers.length; i++) {
+		sheet.autoSizeColumn(i);
+	    }
+
+	    workbook.write(out);
+	    return out.toByteArray();
+	} catch (Exception e) {
+	    throw new RuntimeException("Failed to export orders to Excel", e);
+	}
+    }
+
+    private String generateDefaultFilename() {
+	LocalDateTime now = LocalDateTime.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmSS");
+	return "order_export" + now.format(formatter);
     }
 
 }
